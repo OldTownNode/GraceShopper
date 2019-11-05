@@ -129,9 +129,9 @@ const products = [
 	},
 	{
 		name: 'Order Imperium Playing Cards',
-		description: 'Order Imperium Playing Cards',
-		imageUrl:
+		description:
 			'Order Imperium is the first deck of the Order Series.This deck represents the MAGNIFICENCE of our People and the glory of our Unique Party. Order Imperium is printed with superb metallic inks and beautiful artwork authorized by the Ministry of Information.',
+		imageUrl: 'https://i.ebayimg.com/images/g/6M0AAOSwxW9dr2qn/s-l640.jpg',
 		inventory: 10,
 		price: 15.99,
 		category: 'entertainment'
@@ -302,8 +302,9 @@ async function seed() {
 	)
 
 	console.log(`seeded ${users.length} users`)
-	console.log(`seeded ${orders.length} products`)
+	console.log(`seeded ${orders.length} orders`)
 	console.log(`seeded ${prod.length} products`)
+	console.log(`seeded ${orderprod.length} products in orders`)
 	console.log(`seeded successfully`)
 }
 
