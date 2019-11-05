@@ -5,6 +5,30 @@ const db = require('../db')
 const User = db.define(
 	'user',
 	{
+		firstName: {
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
+		},
+		lastName: {
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
+		},
 		email: {
 			type: Sequelize.STRING,
 			unique: true,
@@ -43,6 +67,14 @@ const User = db.define(
 						throw new Error(
 							'Password must include at least one upper case character'
 						)
+					} else if (!value.match(/[a-z]/)) {
+						throw new Error(
+							'Password must include at least one lower case character'
+						)
+					} else if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Password must not include illegal characters'
+						)
 					}
 				},
 
@@ -69,26 +101,89 @@ const User = db.define(
 			}
 		},
 		apt: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		houseNumber: {
-			type: Sequelize.INTEGER
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		street: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		zipcode: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		state: {
 			type: Sequelize.STRING,
-			defaultValue: ' '
+			defaultValue: ' ',
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		country: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 		address: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
+			validate: {
+				validAdd(value) {
+					if (value.match(/[;<>]/)) {
+						throw new Error(
+							'Address must not include illegal characters'
+						)
+					}
+				}
+			}
 		},
 
 		admin: {
