@@ -188,7 +188,7 @@ const User = db.define(
 
 		admin: {
 			type: Sequelize.BOOLEAN,
-			defaultValue: false
+			defaultValue: true
 		},
 		salt: {
 			type: Sequelize.STRING,
