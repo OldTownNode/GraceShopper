@@ -1,0 +1,41 @@
+diff a/client/routes.js b/client/routes.js	(rejected hunks)
+@@ -5,2 +5,2 @@ import PropTypes from 'prop-types'
+-import {Login, Signup, UserHome} from './components'
+-import {me} from './store'
++import { Login, Signup, UserHome } from './components'
++import { me } from './store'
+@@ -19,17 +19,17 @@ class Routes extends Component {
+-    return (
+-      <Switch>
+-        {/* Routes placed here are available to all visitors */}
+-        <Route path="/login" component={Login} />
+-        <Route path="/signup" component={Signup} />
+-        {isLoggedIn && (
+-          <Switch>
+-            {/* Routes placed here are only available after logging in */}
+-            <Route path="/home" component={UserHome} />
+-            <Route path="/users" component={Login} />
+-          </Switch>
+-        )}
+-        {/* Displays our Login component as a fallback */}
+-        <Route component={Login} />
+-      </Switch>
+-    )
+-  }
++		return (
++			<Switch>
++				{/* Routes placed here are available to all visitors */}
++				<Route path="/login" component={Login} />
++				<Route path="/signup" component={Signup} />
++				{isLoggedIn && (
++					<Switch>
++						{/* Routes placed here are only available after logging in */}
++						<Route path="/home" component={UserHome} />
++						<Route path="/users" component={Login} />
++					</Switch>
++				)}
++				{/* Displays our Login component as a fallback */}
++				<Route component={Login} />
++			</Switch>
++		)
++	}
