@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { allUsersThunk, me } from '../store'
+import { UserPage } from './index.js'
+import { Link } from 'react-router-dom'
 
 class AllUsers extends Component {
-	componentDidMount() {}
+	componentDidMount() {
+		console.log(this.props)
+		this.props.loadData()
+	}
+
 	render() {
 		return (
 			<div>
-				<ul>
-					<li>Username: {this.props.user.username}</li>
-					<li>
-						Name: {this.props.user.firstName}{' '}
-						{this.props.user.lastName}
-					</li>
-					<li>Address: {this.props.user.address}</li>
-					<li>Email: {this.props.user.email}</li>
-				</ul>
+				{this.props.allUsers &&
+					this.props.allUsers.map(user => {
+						return (
+							<Link to={`/users/${user.id}`}>
+								<div key={user.id}>
+									<UserPage user={user} />
+								</div>
+							</Link>
+						)
+					})}
 			</div>
 		)
 	}
@@ -22,8 +30,13 @@ class AllUsers extends Component {
 
 const mapState = state => {
 	return {
-		user: state.user
+		allUsers: state.user.allUsers
+	}
+}
+const mapDispatch = dispatch => {
+	return {
+		loadData: () => dispatch(allUsersThunk())
 	}
 }
 
-export default connect(mapState)(AllUsers)
+export default connect(mapState, mapDispatch)(AllUsers)

@@ -7,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const SINGLE_USER = 'SINGLE_USER'
+const ALL_USERS = 'ALL_USERS'
 /**
  * INITIAL STATE
  */
@@ -21,10 +22,11 @@ const initialState = {
 const getUser = user => ({ type: GET_USER, user })
 const removeUser = () => ({ type: REMOVE_USER })
 const singleUser = user => ({ type: SINGLE_USER, user })
+const allUsers = users => ({ type: ALL_USERS, users })
 /**
  * THUNK CREATORS
  */
-
+//custom thunks start
 // export const userView = user => async dispatch => {
 // 	try {
 // 		const res = await axios.get(`/api/users/${user.id}`)
@@ -33,6 +35,17 @@ const singleUser = user => ({ type: SINGLE_USER, user })
 // 		console.error(error)
 // 	}
 // }
+
+export const allUsersThunk = () => async dispatch => {
+	try {
+		const res = await axios.get('/api/users')
+
+		dispatch(allUsers(res.data || initialState.allUsers))
+	} catch (error) {
+		console.error(error)
+	}
+}
+//custom thunks end
 //boilermaker original login functions//
 export const me = () => async dispatch => {
 	try {
@@ -46,7 +59,6 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
-		console.log(email, password)
 		res = await axios.post(`/auth/${method}`, { email, password })
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
@@ -76,13 +88,13 @@ export const logout = () => async dispatch => {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_USER:
-			initialState.user = action.user
-			return initialState.user
+			return { ...state, user: action.user }
 		case REMOVE_USER:
-			return initialState.user
-		case SINGLE_USER:
-			initialState.user = action.user
-			return initialState.user
+			return { ...state, user: initialState.user }
+		// case SINGLE_USER:
+		// 	return state.user
+		case ALL_USERS:
+			return { ...state, allUsers: action.users }
 		default:
 			return state
 	}

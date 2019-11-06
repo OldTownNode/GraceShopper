@@ -22,7 +22,14 @@ router.get('/', async (req, res, next) => {
 			else {
 				try {
 					const users = await User.findAll({
-						attributes: ['id', 'email']
+						attributes: [
+							'id',
+							'email',
+							'address',
+							'username',
+							'firstName',
+							'lastName'
+						]
 					})
 					res.json(users)
 				} catch (err) {
