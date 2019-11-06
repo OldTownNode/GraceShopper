@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 
 class AllUsers extends Component {
 	componentDidMount() {
-		console.log(this.props)
 		this.props.loadData()
 	}
 
@@ -16,11 +15,11 @@ class AllUsers extends Component {
 				{this.props.allUsers &&
 					this.props.allUsers.map(user => {
 						return (
-							<Link to={`/users/${user.id}`}>
-								<div key={user.id}>
+							<div key={user.id}>
+								<Link to={`/users/${user.id}`}>
 									<UserPage user={user} />
-								</div>
-							</Link>
+								</Link>
+							</div>
 						)
 					})}
 			</div>
