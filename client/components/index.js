@@ -5,6 +5,9 @@
  */
 export { default as Navbar } from './navbar'
 export { default as UserHome } from './user-home'
+export { default as UserPage } from './user-page'
+export { default as AllUsers } from './all-users'
 export { Login, Signup } from './auth-form'
+
 export { default as ConnectedSingleProduct } from './single-product'
 export { default as ConnectedProducts } from './products'

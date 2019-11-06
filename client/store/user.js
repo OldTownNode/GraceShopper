@@ -6,66 +6,96 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-
+const SINGLE_USER = 'SINGLE_USER'
+const ALL_USERS = 'ALL_USERS'
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const initialState = {
+	allUsers: [],
+	user: {}
+}
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
-
+const getUser = user => ({ type: GET_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
+const singleUser = user => ({ type: SINGLE_USER, user })
+const allUsers = users => ({ type: ALL_USERS, users })
 /**
  * THUNK CREATORS
  */
+//custom thunks start
+// export const userView = user => async dispatch => {
+// 	try {
+// 		const res = await axios.get(`/api/users/${user.id}`)
+// 		dispatch(singleUser(res))
+// 	} catch (error) {
+// 		console.error(error)
+// 	}
+// }
+
+export const allUsersThunk = () => async dispatch => {
+	try {
+		const res = await axios.get('/api/users')
+
+		dispatch(allUsers(res.data || initialState.allUsers))
+	} catch (error) {
+		console.error(error)
+	}
+}
+//custom thunks end
+//boilermaker original login functions//
 export const me = () => async dispatch => {
-  try {
-    const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
-  } catch (err) {
-    console.error(err)
-  }
+	try {
+		const res = await axios.get('/auth/me')
+		dispatch(getUser(res.data || initialState.user))
+	} catch (err) {
+		console.error(err)
+	}
 }
 
 export const auth = (email, password, method) => async dispatch => {
-  let res
-  try {
-    res = await axios.post(`/auth/${method}`, {email, password})
-  } catch (authError) {
-    return dispatch(getUser({error: authError}))
-  }
+	let res
+	try {
+		res = await axios.post(`/auth/${method}`, { email, password })
+	} catch (authError) {
+		return dispatch(getUser({ error: authError }))
+	}
 
-  try {
-    dispatch(getUser(res.data))
-    history.push('/home')
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr)
-  }
+	try {
+		dispatch(getUser(res.data))
+		history.push('/home')
+	} catch (dispatchOrHistoryErr) {
+		console.error(dispatchOrHistoryErr)
+	}
 }
 
 export const logout = () => async dispatch => {
-  try {
-    await axios.post('/auth/logout')
-    dispatch(removeUser())
-    history.push('/login')
-  } catch (err) {
-    console.error(err)
-  }
+	try {
+		await axios.post('/auth/logout')
+		dispatch(removeUser())
+		history.push('/login')
+	} catch (err) {
+		console.error(err)
+	}
 }
-
+//end boilermaker original login functions//
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
-  switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
-    default:
-      return state
-  }
+export default function(state = initialState, action) {
+	switch (action.type) {
+		case GET_USER:
+			return { ...state, user: action.user }
+		case REMOVE_USER:
+			return { ...state, user: initialState.user }
+		// case SINGLE_USER:
+		// 	return state.user
+		case ALL_USERS:
+			return { ...state, allUsers: action.users }
+		default:
+			return state
+	}
 }

@@ -11,7 +11,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 			{isLoggedIn ? (
 				<div>
 					{/* The navbar will show these links after you log in */}
+					<Link to="/users">All Users</Link>
 					<Link to="/home">Home</Link>
+
 					<a href="#" onClick={handleClick}>
 						Logout
 					</a>
@@ -35,7 +37,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
  */
 const mapState = state => {
 	return {
-		isLoggedIn: !!state.user.id
+		isLoggedIn: !!state.user.user.id
 	}
 }
 
