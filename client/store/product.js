@@ -25,6 +25,7 @@ export function fetchProducts() {
 	return async function thunk(dispatch) {
 		try {
 			const { data } = await axios.get('/api/products')
+
 			dispatch(getProducts(data))
 		} catch (error) {
 			console.log('error in fetch products thunk', error)

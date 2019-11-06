@@ -89,6 +89,7 @@ const User = db.define(
 		},
 		username: {
 			type: Sequelize.STRING,
+			defaultValue: 'YourUsername',
 			validate: {
 				len: {
 					args: [5, 15],
@@ -102,6 +103,7 @@ const User = db.define(
 		},
 		apt: {
 			type: Sequelize.STRING,
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -114,6 +116,7 @@ const User = db.define(
 		},
 		houseNumber: {
 			type: Sequelize.STRING,
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -126,6 +129,7 @@ const User = db.define(
 		},
 		street: {
 			type: Sequelize.STRING,
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -138,6 +142,7 @@ const User = db.define(
 		},
 		zipcode: {
 			type: Sequelize.STRING,
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -150,7 +155,7 @@ const User = db.define(
 		},
 		state: {
 			type: Sequelize.STRING,
-			defaultValue: ' ',
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -163,6 +168,7 @@ const User = db.define(
 		},
 		country: {
 			type: Sequelize.STRING,
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -188,7 +194,7 @@ const User = db.define(
 
 		admin: {
 			type: Sequelize.BOOLEAN,
-			defaultValue: false
+			defaultValue: true
 		},
 		salt: {
 			type: Sequelize.STRING,
@@ -205,7 +211,7 @@ const User = db.define(
 			beforeCreate: user => {
 				user.address = `${user.houseNumber}, ${user.street}, ${
 					user.apt
-				} ${user.zipcode}, ${user.state}, ${user.country}`
+				}, ${user.zipcode}, ${user.state}, ${user.country}`
 			}
 		}
 	}
