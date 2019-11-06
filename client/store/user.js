@@ -6,7 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const SINGLE_USER = 'SINGLE_USER'
+const FIND_SINGLE_USER = 'FIND_SINGLE_USER'
 const ALL_USERS = 'ALL_USERS'
 /**
  * INITIAL STATE
@@ -21,20 +21,21 @@ const initialState = {
  */
 const getUser = user => ({ type: GET_USER, user })
 const removeUser = () => ({ type: REMOVE_USER })
-const singleUser = user => ({ type: SINGLE_USER, user })
+const findSingleUser = user => ({ type: FIND_SINGLE_USER, user })
 const allUsers = users => ({ type: ALL_USERS, users })
 /**
  * THUNK CREATORS
  */
 //custom thunks start
-// export const userView = user => async dispatch => {
-// 	try {
-// 		const res = await axios.get(`/api/users/${user.id}`)
-// 		dispatch(singleUser(res))
-// 	} catch (error) {
-// 		console.error(error)
-// 	}
-// }
+export const findSingleUserThunk = user => async dispatch => {
+	try {
+		const { data } = await axios.get(`/api/users/${user}`)
+		console.log(data)
+		dispatch(findSingleUser(data[0]))
+	} catch (error) {
+		console.error(error)
+	}
+}
 
 export const allUsersThunk = () => async dispatch => {
 	try {
@@ -91,8 +92,8 @@ export default function(state = initialState, action) {
 			return { ...state, user: action.user }
 		case REMOVE_USER:
 			return { ...state, user: initialState.user }
-		// case SINGLE_USER:
-		// 	return state.user
+		case FIND_SINGLE_USER:
+			return { ...state, user: action.user }
 		case ALL_USERS:
 			return { ...state, allUsers: action.users }
 		default:

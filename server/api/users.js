@@ -43,21 +43,29 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
 	try {
+		console.log(12345, req.session.userId, req.params.id)
 		User.findByPk(req.session.userId).then(async user => {
-			if (!user || user.id !== req.session.userId || !user.admin)
-				console.error('Insufficient Rights')
-			else {
+			if (user.id === parseInt(req.params.id) || user.admin) {
 				try {
 					const users = await User.findAll({
 						where: {
 							id: req.params.id
 						},
-						attributes: ['id', 'email']
+						attributes: [
+							'id',
+							'email',
+							'address',
+							'username',
+							'firstName',
+							'lastName'
+						]
 					})
 					res.json(users)
 				} catch (err) {
 					next(err)
 				}
+			} else {
+				console.error('Insufficient Rights')
 			}
 		})
 	} catch (error) {
