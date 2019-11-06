@@ -25,7 +25,8 @@ export const getAllOrders = () => async dispatch => {
  * INITIAL STATE
  */
 // const initialState = {
-// 	orders: []
+//     orders: [],
+//     singleOrder: {}
 // }
 
 /**
