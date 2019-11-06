@@ -20,7 +20,7 @@ class Products extends React.Component {
 			<div className="container">
 				{this.props.products.map(product => {
 					return (
-						<div key={product.id} className="card">
+						<div key={product.id} className="card"> {/* product component here would be cool */}
 							<li>
 								<a className="img">
 									<img src={product.imageUrl} />

@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-	try {
+	try { // error handling for 404
 		const product = await Product.findByPk(req.params.id)
 		res.json(product)
 	} catch (error) {

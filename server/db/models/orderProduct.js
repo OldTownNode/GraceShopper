@@ -9,7 +9,8 @@ const OrderProduct = db.define('orderproduct', {
 			min: 0
 		}
 	},
-	price: {
+  price: { // be vewwyyyyyyyyyyy careful with calculating prices
+    // doing .toFixed is not good enough
 		type: Sequelize.DECIMAL(8, 2),
 		allowNull: false,
 		validate: {

@@ -10,7 +10,7 @@ const User = db.define(
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
-						throw new Error(
+						throw new Error( // clearer error messages
 							'Address must not include illegal characters'
 						)
 					}
@@ -36,7 +36,7 @@ const User = db.define(
 			validate: {
 				isEmail: {
 					args: true,
-					msg: 'Must be valid email'
+					msg: 'Must be valid email' // niceeee
 				}
 			}
 		},
@@ -52,7 +52,7 @@ const User = db.define(
 				//   },
 
 				//password check for presentation:
-				validPw(value) {
+				validPw(value) { // think about a switch statement
 					if (!value.match(/[0-9]/)) {
 						throw new Error(
 							'Password must include at least one number'
@@ -136,7 +136,7 @@ const User = db.define(
 				}
 			}
 		},
-		zipcode: {
+		zipcode: { // maybe think about making this an integer
 			type: Sequelize.STRING,
 			validate: {
 				validAdd(value) {

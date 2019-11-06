@@ -10,7 +10,7 @@ const Product = db.define('product', {
 		}
 	},
 	description: {
-		type: Sequelize.TEXT,
+		type: Sequelize.TEXT, // validate notEmpty unless you want to allow ''
 		allowNull: false
 	},
 	imageUrl: {

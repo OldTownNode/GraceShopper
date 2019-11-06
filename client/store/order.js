@@ -15,7 +15,7 @@ const gotAllOrders = orders => ({ type: GOT_ALL_ORDERS, orders })
 /**
  * THUNK CREATORS
  */
-export const getAllOrders = () => async dispatch => {
+export const getAllOrders = () => async dispatch => { // try/catch
 	const { data } = await Axios.get('/api/orders')
 	console.log(data)
 	dispatch(gotAllOrders(data))

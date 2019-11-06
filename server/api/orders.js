@@ -4,7 +4,7 @@ const { User } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
 	const user = await User.findByPk(req.session.userId)
-	if (user && user.admin) {
+	if (user && user.admin) { // put this check inside of a middleware function
 		try {
 			const orders = await Order.findAll()
 			res.json(orders)
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
 		} catch (err) {
 			next(err)
 		}
-	} else if (user) {
+	} else if (user) { //this feels like you're trying to do two separate things with a single route.
 		try {
 			const orders = await Order.findAll({
 				where: {

@@ -22,7 +22,7 @@ export const getSingleProduct = product => ({
 
 //thunks
 export function fetchProducts() {
-	return async function thunk(dispatch) {
+	return async function thunk(dispatch) { // niceeee
 		try {
 			const { data } = await axios.get('/api/products')
 			dispatch(getProducts(data))
