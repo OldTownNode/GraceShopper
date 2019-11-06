@@ -22,7 +22,10 @@ class SingleProduct extends React.Component {
 				<a className="img">
 					<img src={imageUrl} />
 				</a>
-				<h2>{`price: ${price} inventory: ${inventory}`}</h2>
+				<h2>
+					<div>{`price: $${price}`}</div>
+					<div>{`inventory: ${inventory}`}</div>
+				</h2>
 				<p>{description}</p>
 			</div>
 		)
