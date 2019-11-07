@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function SingleProductView(props) {
-	console.log('props in single product view', props)
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
 		<div>

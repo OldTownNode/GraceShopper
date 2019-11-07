@@ -4,10 +4,6 @@ import { connect } from 'react-redux'
 import SingleProduct from './single-product'
 
 class Products extends React.Component {
-	// constructor(props) {
-	// 	super(props)
-	// }
-
 	componentDidMount() {
 		this.props.fetchProducts()
 	}
@@ -21,7 +17,6 @@ class Products extends React.Component {
 		)
 	}
 }
-
 const mapStateToProps = state => {
 	return {
 		products: state.productReducer.products
