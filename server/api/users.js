@@ -66,15 +66,30 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.get('/:id/orders', async (req, res, next) => {
-	try {
-		const userOrders = await Order.findAll({
-			where: {
-				userId: req.params.id
-			}
-		})
-		res.send(userOrders)
-	} catch (error) {
-		next(error)
+	if (req.user.admin) {
+		try {
+			const userOrders = await Order.findAll({
+				where: {
+					userId: req.params.id
+				}
+			})
+			res.send(userOrders)
+		} catch (error) {
+			next(error)
+		}
+	} else if (req.user && req.user.id === parseInt(req.params.id)) {
+		try {
+			const userOrders = await Order.findAll({
+				where: {
+					userId: req.params.id
+				}
+			})
+			res.send(userOrders)
+		} catch (error) {
+			next(error)
+		}
+	} else {
+		res.sendStatus(401)
 	}
 })
 
