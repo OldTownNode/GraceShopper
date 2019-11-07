@@ -11,8 +11,8 @@ import {
 	Login,
 	Signup,
 	UserHome,
-	ConnectedSingleProduct,
-	ConnectedProducts
+	ConnectedSingleProductContainer,
+	ConnectedProductsContainer
 } from './components'
 
 /**
@@ -33,9 +33,12 @@ class Routes extends Component {
 				<Route path="/signup" component={Signup} />
 				<Route
 					path="/products/:id"
-					component={ConnectedSingleProduct}
+					component={ConnectedSingleProductContainer}
 				/>
-				<Route path="/products" component={ConnectedProducts} />
+				<Route
+					path="/products"
+					component={ConnectedProductsContainer}
+				/>
 
 				{isLoggedIn && (
 					<Switch>

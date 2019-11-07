@@ -1,35 +1,26 @@
 import React from 'react'
 
 import { fetchAProduct } from '../store/product'
-
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+function SingleProduct(props) {
+	const { name, imageUrl, inventory, price, id } = props.products
 
-class SingleProduct extends React.Component {
-	componentDidMount() {
-		this.props.fetchAProduct(this.props.match.params.id)
-	}
-	render() {
-		const {
-			name,
-			description,
-			imageUrl,
-			inventory,
-			price
-		} = this.props.singleProduct
-		return (
-			<div>
+	return (
+		<div>
+			<Link to={`/products/${id}`}>
 				<h1>{name}</h1>
-				<a className="img">
-					<img src={imageUrl} />
-				</a>
-				<h2>
-					<div>{`price: ${price}`}</div>
-					<div>{`inventory: ${inventory}`}</div>
-				</h2>
-				<p>{description}</p>
-			</div>
-		)
-	}
+			</Link>
+
+			<a className="img">
+				<img src={imageUrl} />
+			</a>
+			<h2>
+				<div>{`price: ${price}`}</div>
+				<div>{`inventory: ${inventory}`}</div>
+			</h2>
+		</div>
+	)
 }
 
 const mapStateToProps = state => {
