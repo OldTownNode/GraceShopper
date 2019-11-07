@@ -43,7 +43,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
 	try {
-		console.log(12345, req.session.userId, req.params.id)
 		User.findByPk(req.session.userId).then(async user => {
 			if (user.id === parseInt(req.params.id) || user.admin) {
 				try {

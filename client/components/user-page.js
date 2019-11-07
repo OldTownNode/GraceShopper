@@ -15,6 +15,11 @@ class UserPage extends React.Component {
 		if (this.props.match) this.props.findUser(this.props.match.params.id)
 	}
 	render() {
+		let displaybutton = 'none'
+		if (!this.props.islist) displaybutton = 'block'
+		const displayStyle = {
+			display: displaybutton
+		}
 		let uservalue
 		if (this.props.user.user) uservalue = this.props.user.user
 		else uservalue = this.props.user
@@ -29,7 +34,7 @@ class UserPage extends React.Component {
 					<li>Address: {address}</li>
 					<li>Email: {email}</li>
 				</ul>
-				<Link to={`/users/${uservalue.id}/update`}>
+				<Link to={`/users/${uservalue.id}/update`} style={displayStyle}>
 					<button>Edit User</button>
 				</Link>
 			</div>
@@ -38,7 +43,8 @@ class UserPage extends React.Component {
 }
 const mapState = (state, ownProps) => {
 	return {
-		user: ownProps.user || state.user
+		user: ownProps.user || state.user,
+		islist: ownProps.islist || false
 	}
 }
 

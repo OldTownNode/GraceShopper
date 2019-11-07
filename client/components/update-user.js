@@ -27,26 +27,8 @@ class UpdateUser extends React.Component {
 			this.setState({ user: this.props.user.user })
 		}
 	}
-	componentWillUnmount() {
-		this.setState({
-			user: {
-				username: '',
-				email: '',
-				firstName: '',
-				lastName: '',
-				houseNumber: '',
-				apt: '',
-				street: '',
-				zipcode: '',
-				state: '',
-				country: ''
-			}
-		})
-	}
 
 	render() {
-		console.log('props', this.props)
-		console.log('state', this.state)
 		let userObj
 		if (this.state.user.username) userObj = this.state.user
 		else if (this.props.user) userObj = this.props.user.user
