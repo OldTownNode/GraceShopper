@@ -13,7 +13,8 @@ const ALL_USERS = 'ALL_USERS'
  */
 const initialState = {
 	allUsers: [],
-	user: {}
+	user: {},
+	loggedInUser: {}
 }
 
 /**
@@ -89,7 +90,7 @@ export const logout = () => async dispatch => {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_USER:
-			return { ...state, user: action.user }
+			return { ...state, loggedInUser: action.user }
 		case REMOVE_USER:
 			return { ...state, user: initialState.user }
 		case FIND_SINGLE_USER:

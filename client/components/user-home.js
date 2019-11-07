@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
  */
 export const UserHome = props => {
 	const { email } = props
-
+	console.log('props', props.session)
 	return (
 		<div>
 			<h3>Welcome, {email}</h3>
@@ -20,7 +20,7 @@ export const UserHome = props => {
  */
 const mapState = state => {
 	return {
-		email: state.user.user.email
+		email: state.user.loggedInUser.email
 	}
 }
 
