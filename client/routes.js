@@ -11,6 +11,7 @@ import {
 	Login,
 	Signup,
 	UserHome,
+	UserOrders,
 	ConnectedSingleProductContainer,
 	ConnectedProductsContainer
 } from './components'
@@ -44,6 +45,10 @@ class Routes extends Component {
 					<Switch>
 						{/* Routes placed here are only available after logging in */}
 						<Route path="/home" component={UserHome} />
+						<Route
+							path="/users/:id/orders"
+							component={UserOrders}
+						/>
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />
 						<Route path="/orders" component={Orders} />

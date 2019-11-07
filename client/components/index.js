@@ -9,6 +9,9 @@ export { default as UserPage } from './user-page'
 export { default as AllUsers } from './all-users'
 export { Login, Signup } from './auth-form'
 
+export { default as ConnectedSingleProduct } from './single-product'
+// export { default as ConnectedProducts } from './products'
+export { default as UserOrders } from './UserOrders'
 export {
 	default as ConnectedSingleProductContainer
 } from './single-product-container'
