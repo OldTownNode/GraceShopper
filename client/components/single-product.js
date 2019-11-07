@@ -1,9 +1,6 @@
 import React from 'react'
-
-import { fetchAProduct } from '../store/product'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-function SingleProduct(props) {
+export default function SingleProduct(props) {
 	const { name, imageUrl, inventory, price, id } = props.products
 
 	return (
@@ -18,24 +15,8 @@ function SingleProduct(props) {
 			<h2>
 				<div>{`price: ${price}`}</div>
 				<div>{`inventory: ${inventory}`}</div>
+				<div />
 			</h2>
 		</div>
 	)
 }
-
-const mapStateToProps = state => {
-	return {
-		singleProduct: state.productReducer.singleProduct
-	}
-}
-
-const mapDispatchToProps = dispatch => {
-	return {
-		fetchAProduct: id => dispatch(fetchAProduct(id))
-	}
-}
-
-const ConnectedSingleProduct = connect(mapStateToProps, mapDispatchToProps)(
-	SingleProduct
-)
-export default ConnectedSingleProduct
