@@ -57,7 +57,13 @@ router.get('/:id', async (req, res, next) => {
 							'address',
 							'username',
 							'firstName',
-							'lastName'
+							'lastName',
+							'apt',
+							'houseNumber',
+							'street',
+							'zipcode',
+							'state',
+							'country'
 						]
 					})
 					res.json(users)
