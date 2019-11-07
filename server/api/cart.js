@@ -1,18 +1,30 @@
 const router = require('express').Router()
-const { Order } = require('../db/models')
+const { Order, Product } = require('../db/models')
 
-router.get('/', (req, res, next) => {
-	try {
+router.get('/', async (req, res, next) => {
+	if (req.user) {
+		try {
+			//TODO update
+			let cartOrder = await Order.findOne({
+				where: {
+					userId: req.user.id,
+					status: 'inCart'
+				},
+				include: [{ model: Product, as: 'products' }]
+			})
+			res.json(cartOrder)
+		} catch (error) {
+			next(error)
+		}
+	} else {
 		res.json(req.session.cart)
-	} catch (error) {
-		next(error)
 	}
 })
 
 //This route will handle all 'additions' to the cart, even if it is just incrementing a product that is already there.  There are two cases to handle:  When the user is logged in and when the user is a guest. This will be handled by checking if req.user is undefined.
 
 //req.body is a product
-router.post('/', async (req, res, next) => {
+router.put('/increment', async (req, res, next) => {
 	if (req.user) {
 		try {
 			let cartOrder = await Order.findOrCreate({
@@ -33,7 +45,7 @@ router.post('/', async (req, res, next) => {
 	}
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/decrement', async (req, res, next) => {
 	if (req.user) {
 		try {
 			let cartOrder = await Order.findOrCreate({
