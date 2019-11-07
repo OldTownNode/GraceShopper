@@ -14,7 +14,7 @@ class Products extends React.Component {
 		this.props.fetchProducts()
 	}
 	render() {
-		console.log('store', store)
+		console.log('state', store.getState())
 		console.log('props', this.props)
 		return (
 			<div className="container">
