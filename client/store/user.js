@@ -30,7 +30,7 @@ const allUsers = users => ({ type: ALL_USERS, users })
 export const findSingleUserThunk = user => async dispatch => {
 	try {
 		const { data } = await axios.get(`/api/users/${user}`)
-		console.log(data)
+		//console.log(data)
 		dispatch(findSingleUser(data[0]))
 	} catch (error) {
 		console.error(error)
