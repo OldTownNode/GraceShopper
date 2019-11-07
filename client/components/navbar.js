@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, Route } from 'react-router-dom'
 import { logout } from '../store'
-import ConnectedProducts from './products'
-import ConnectedSingleProduct from './single-product'
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
 	<div>

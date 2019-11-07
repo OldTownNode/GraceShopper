@@ -12,3 +12,7 @@ export { Login, Signup } from './auth-form'
 export { default as ConnectedSingleProduct } from './single-product'
 export { default as ConnectedProducts } from './products'
 export { default as UserOrders } from './userOrders'
+export {
+	default as ConnectedSingleProductContainer
+} from './single-product-container'
+export { default as ConnectedProductsContainer } from './products-container'
