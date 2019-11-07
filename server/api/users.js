@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User } = require('../db/models')
+const { User, Order } = require('../db/models')
 module.exports = router
 
 // router.param('id', async (req, res, next, id) => {
@@ -60,6 +60,19 @@ router.get('/:id', async (req, res, next) => {
 				}
 			}
 		})
+	} catch (error) {
+		next(error)
+	}
+})
+
+router.get('/:id/orders', async (req, res, next) => {
+	try {
+		const userOrders = await Order.findAll({
+			where: {
+				userId: req.params.id
+			}
+		})
+		res.send(userOrders)
 	} catch (error) {
 		next(error)
 	}
