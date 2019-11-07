@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { me } from './store'
 import Orders from './components/orders'
 import {
+	UserUpdate,
 	AllUsers,
 	UserPage,
 	Login,
@@ -46,6 +47,8 @@ class Routes extends Component {
 						{/* Routes placed here are only available after logging in */}
 						<Route path="/home" component={UserHome} />
 						<Route
+							path="/users/:id/update"
+							component={UserUpdate}
 							path="/users/:id/orders"
 							component={UserOrders}
 						/>
@@ -68,7 +71,7 @@ const mapState = state => {
 	return {
 		// Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
 		// Otherwise, state.user will be an empty object, and state.user.id will be falsey
-		isLoggedIn: !!state.user.user.id
+		isLoggedIn: !!state.user.loggedInUser.id
 	}
 }
 

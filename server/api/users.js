@@ -44,20 +44,33 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 	try {
 		User.findByPk(req.session.userId).then(async user => {
-			if (!user || user.id !== req.session.userId || !user.admin)
-				console.error('Insufficient Rights')
-			else {
+			if (user.id === parseInt(req.params.id) || user.admin) {
 				try {
 					const users = await User.findAll({
 						where: {
 							id: req.params.id
 						},
-						attributes: ['id', 'email']
+						attributes: [
+							'id',
+							'email',
+							'address',
+							'username',
+							'firstName',
+							'lastName',
+							'apt',
+							'houseNumber',
+							'street',
+							'zipcode',
+							'state',
+							'country'
+						]
 					})
 					res.json(users)
 				} catch (err) {
 					next(err)
 				}
+			} else {
+				console.error('Insufficient Rights')
 			}
 		})
 	} catch (error) {
@@ -96,31 +109,38 @@ router.get('/:id/orders', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
 	try {
 		User.findByPk(req.session.userId).then(async user => {
-			if (!user || !user.admin || user.id !== req.session.userId)
-				console.error('Insufficient Rights')
-			else {
+			if (user.id === parseInt(req.params.id) || user.admin)
 				try {
-					const users = await User.update({
-						email: req.body.email,
-						password: req.body.password,
-						username: req.body.username,
-						firstName: req.body.firstName,
-						lastName: req.body.lastName,
-						apt: req.body.apt,
-						street: req.body.street,
-						houseNumber: req.body.houseNumber,
-						zipcode: req.body.zipcode,
-						state: req.body.state
-					})
+					const users = await User.update(
+						{
+							email: req.body.email,
+							password: req.body.password,
+							username: req.body.username,
+							firstName: req.body.firstName,
+							lastName: req.body.lastName,
+							apt: req.body.apt,
+							street: req.body.street,
+							houseNumber: req.body.houseNumber,
+							zipcode: req.body.zipcode,
+							state: req.body.state
+						},
+						{ returning: true, where: { id: req.params.id } }
+					)
 					if (user.admin) {
-						await User.update({
-							admin: req.admin
-						})
+						await User.update(
+							{
+								admin: req.admin
+							},
+							{ where: { id: req.params.id } }
+						)
 					}
-					res.json(users)
+
+					res.json(users[1])
 				} catch (err) {
 					next(err)
 				}
+			else {
+				console.error('Insufficient Rights')
 			}
 		})
 	} catch (error) {

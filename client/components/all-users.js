@@ -16,8 +16,9 @@ class AllUsers extends Component {
 					this.props.allUsers.map(user => {
 						return (
 							<div key={user.id}>
+								<UserPage user={user} islist={true} />
 								<Link to={`/users/${user.id}`}>
-									<UserPage user={user} />
+									<button>Go to User Page</button>
 								</Link>
 							</div>
 						)

@@ -6,14 +6,16 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const SINGLE_USER = 'SINGLE_USER'
+const FIND_SINGLE_USER = 'FIND_SINGLE_USER'
 const ALL_USERS = 'ALL_USERS'
+const UPDATE_USER = 'UPDATE_USER'
 /**
  * INITIAL STATE
  */
 const initialState = {
 	allUsers: [],
-	user: {}
+	user: {},
+	loggedInUser: {}
 }
 
 /**
@@ -21,25 +23,34 @@ const initialState = {
  */
 const getUser = user => ({ type: GET_USER, user })
 const removeUser = () => ({ type: REMOVE_USER })
-const singleUser = user => ({ type: SINGLE_USER, user })
+const findSingleUser = user => ({ type: FIND_SINGLE_USER, user })
 const allUsers = users => ({ type: ALL_USERS, users })
+const updateUser = user => ({ type: UPDATE_USER, user })
 /**
  * THUNK CREATORS
  */
 //custom thunks start
-// export const userView = user => async dispatch => {
-// 	try {
-// 		const res = await axios.get(`/api/users/${user.id}`)
-// 		dispatch(singleUser(res))
-// 	} catch (error) {
-// 		console.error(error)
-// 	}
-// }
+export const updateUserThunk = user => async dispatch => {
+	try {
+		const { data } = await axios.put(`/api/users/${user.id}`, user)
+
+		dispatch(updateUser(data))
+	} catch (error) {
+		console.error(error)
+	}
+}
+export const findSingleUserThunk = user => async dispatch => {
+	try {
+		const { data } = await axios.get(`/api/users/${user}`)
+		dispatch(findSingleUser(data[0]))
+	} catch (error) {
+		console.error(error)
+	}
+}
 
 export const allUsersThunk = () => async dispatch => {
 	try {
 		const res = await axios.get('/api/users')
-
 		dispatch(allUsers(res.data || initialState.allUsers))
 	} catch (error) {
 		console.error(error)
@@ -88,13 +99,15 @@ export const logout = () => async dispatch => {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_USER:
-			return { ...state, user: action.user }
+			return { ...state, loggedInUser: action.user }
 		case REMOVE_USER:
 			return { ...state, user: initialState.user }
-		// case SINGLE_USER:
-		// 	return state.user
+		case FIND_SINGLE_USER:
+			return { ...state, user: action.user }
 		case ALL_USERS:
 			return { ...state, allUsers: action.users }
+		case UPDATE_USER:
+			return { ...state, user: action.user }
 		default:
 			return state
 	}
