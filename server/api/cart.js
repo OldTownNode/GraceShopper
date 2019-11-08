@@ -112,4 +112,24 @@ router.delete('/', async (req, res, next) => {
 	}
 })
 
+router.put('/checkout', async (req, res, next) => {
+	if (req.user) {
+		try {
+			let cartOrder = await Order.findOne({
+				where: {
+					userId: req.user.id,
+					status: 'inCart'
+				}
+			})
+			cartOrder.status = 'complete'
+			await cartOrder.save()
+			res.send(cartOrder)
+		} catch (error) {
+			next(error)
+		}
+	} else {
+		res.send('not logged in not set up yet')
+	}
+})
+
 module.exports = router
