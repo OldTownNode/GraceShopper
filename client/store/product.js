@@ -37,7 +37,6 @@ export function fetchAProduct(id) {
 	return async function thunk(dispatch) {
 		try {
 			const { data } = await axios.get(`/api/products/${id}`)
-			console.log('data', data)
 			dispatch(getSingleProduct(data))
 		} catch (error) {
 			console.log('error in fetch a product thunk', error)

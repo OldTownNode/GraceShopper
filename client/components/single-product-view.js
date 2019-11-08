@@ -3,7 +3,6 @@ import AddButton from './add-button'
 import DecrementButton from './decrement-button'
 
 export default function SingleProductView(props) {
-	console.log('propsin SPV', props)
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
 		<div>
