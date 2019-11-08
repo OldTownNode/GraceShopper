@@ -54,7 +54,7 @@ router.put('/decrement', async (req, res, next) => {
 					status: 'inCart'
 				}
 			})
-			res.send(
+			res.json(
 				await cartOrder[0].decrementProduct(req.body.id, req.body.price)
 			)
 		} catch (error) {
