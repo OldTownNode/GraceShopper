@@ -18,7 +18,8 @@ class UpdateUser extends React.Component {
 				zipcode: '',
 				state: '',
 				country: '',
-				password: ''
+				password: '',
+				admin: 0
 			}
 		}
 		this.handleOnSubmit = this.handleOnSubmit.bind(this)
@@ -51,7 +52,8 @@ class UpdateUser extends React.Component {
 			zipcode: this.state.user.zipcode,
 			state: this.state.user.state,
 			country: this.state.user.country,
-			password: this.state.user.password
+			password: this.state.user.password,
+			admin: !!parseInt(this.state.user.admin)
 		}
 		this.props.updateUser(data)
 	}
@@ -59,6 +61,7 @@ class UpdateUser extends React.Component {
 		let userObj
 		if (this.state.user.username) userObj = this.state.user
 		else if (this.props.user) userObj = this.props.user.user
+
 		let {
 			email,
 			username,
@@ -71,7 +74,11 @@ class UpdateUser extends React.Component {
 			state,
 			country
 		} = userObj
-
+		let displaybutton = 'none'
+		if (userObj.admin) displaybutton = 'block'
+		const displayStyle = {
+			display: displaybutton
+		}
 		return (
 			<div className="edit-user">
 				<form onSubmit={() => this.handleOnSubmit(event)}>
@@ -151,8 +158,20 @@ class UpdateUser extends React.Component {
 						defaultValue={country}
 						onChange={this.handleOnChange}
 					/>
+					<label htmlFor="admin" style={displayStyle}>
+						Admin:
+					</label>
+					<select
+						name="admin"
+						onChange={this.handleOnChange}
+						style={displayStyle}
+					>
+						<option value="0">False</option>
+						<option value="1">True</option>
+					</select>
 					<input type="submit" value="Submit" />
 				</form>
+				<input type="submit" value="Delete User" style={displayStyle} />
 			</div>
 		)
 	}

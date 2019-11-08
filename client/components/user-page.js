@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { findSingleUserThunk } from '../store/user'
+import { UserOrders } from './index.js'
 
 class UserPage extends React.Component {
 	constructor() {
@@ -15,10 +16,21 @@ class UserPage extends React.Component {
 		if (this.props.match) this.props.findUser(this.props.match.params.id)
 	}
 	render() {
+		let ifAdmin
+		if (this.props.user.loggedInUser)
+			ifAdmin = this.props.user.loggedInUser.admin
+		let id
+		if (this.props.match) id = this.props.match.params.id
+
 		let displaybutton = 'none'
 		if (!this.props.islist) displaybutton = 'block'
 		const displayStyle = {
 			display: displaybutton
+		}
+		let displayAdmin = 'none'
+		if (ifAdmin) displayAdmin = 'block'
+		const adminPanel = {
+			display: displayAdmin
 		}
 		let uservalue
 		if (this.props.user.user) uservalue = this.props.user.user
@@ -26,17 +38,28 @@ class UserPage extends React.Component {
 		const { username, firstName, lastName, address, email } = uservalue
 		return (
 			<div>
-				<ul>
-					<li>Username: {username}</li>
-					<li>
-						Name: {firstName} {lastName}
-					</li>
-					<li>Address: {address}</li>
-					<li>Email: {email}</li>
-				</ul>
-				<Link to={`/users/${uservalue.id}/update`} style={displayStyle}>
-					<button>Edit User</button>
-				</Link>
+				<div>
+					<ul>
+						<li>Username: {username}</li>
+						<li>
+							Name: {firstName} {lastName}
+						</li>
+						<li>Address: {address}</li>
+						<li>Email: {email}</li>
+					</ul>
+					<Link
+						to={`/users/${uservalue.id}/update`}
+						style={displayStyle}
+					>
+						<button>Edit User</button>
+					</Link>
+				</div>
+				<div style={displayStyle}>
+					<UserOrders id={id} />
+				</div>
+				<div style={adminPanel}>
+					<Link to="/users">All Users</Link>
+				</div>
 			</div>
 		)
 	}

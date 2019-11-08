@@ -4,7 +4,7 @@ import { getUserOrders } from '../store/order'
 
 class UserOrders extends Component {
 	componentDidMount() {
-		this.props.getUserOrders(this.props.match.params.id)
+		if (this.props.id) this.props.getUserOrders(this.props.id)
 	}
 
 	render() {

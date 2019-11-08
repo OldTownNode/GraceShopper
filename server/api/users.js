@@ -62,7 +62,8 @@ router.get('/:id', async (req, res, next) => {
 							'street',
 							'zipcode',
 							'state',
-							'country'
+							'country',
+							'admin'
 						]
 					})
 					res.json(users)
@@ -108,6 +109,7 @@ router.get('/:id/orders', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
 	try {
+		console.log(req.body.admin)
 		const user = await User.findByPk(req.session.userId)
 		if (user.id === parseInt(req.params.id) || user.admin) {
 			try {
@@ -134,7 +136,7 @@ router.put('/:id', async (req, res, next) => {
 				if (user.admin) {
 					await User.update(
 						{
-							admin: req.admin
+							admin: req.body.admin
 						},
 						{
 							where: { id: req.params.id }
