@@ -108,41 +108,47 @@ router.get('/:id/orders', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
 	try {
-		User.findByPk(req.session.userId).then(async user => {
-			if (user.id === parseInt(req.params.id) || user.admin)
-				try {
-					const users = await User.update(
-						{
-							email: req.body.email,
-							password: req.body.password,
-							username: req.body.username,
-							firstName: req.body.firstName,
-							lastName: req.body.lastName,
-							apt: req.body.apt,
-							street: req.body.street,
-							houseNumber: req.body.houseNumber,
-							zipcode: req.body.zipcode,
-							state: req.body.state
-						},
-						{ returning: true, where: { id: req.params.id } }
-					)
-					if (user.admin) {
-						await User.update(
-							{
-								admin: req.admin
-							},
-							{ where: { id: req.params.id } }
-						)
-					}
+		const user = await User.findByPk(req.session.userId)
+		if (user.id === parseInt(req.params.id) || user.admin) {
+			try {
+				await User.update(
+					{
+						email: req.body.email,
+						password: req.body.password,
+						username: req.body.username,
+						firstName: req.body.firstName,
+						lastName: req.body.lastName,
+						apt: req.body.apt,
+						street: req.body.street,
+						houseNumber: req.body.houseNumber,
+						zipcode: req.body.zipcode,
+						state: req.body.state
+					},
 
-					res.json(users[1])
-				} catch (err) {
-					next(err)
+					{
+						where: { id: req.params.id },
+						individualHooks: true
+					}
+				)
+
+				if (user.admin) {
+					await User.update(
+						{
+							admin: req.admin
+						},
+						{
+							where: { id: req.params.id }
+						}
+					)
 				}
-			else {
-				console.error('Insufficient Rights')
+
+				res.json(user)
+			} catch (err) {
+				next(err)
 			}
-		})
+		} else {
+			console.error('Insufficient Rights')
+		}
 	} catch (error) {
 		next(error)
 	}
