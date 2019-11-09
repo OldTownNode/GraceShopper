@@ -1,6 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { findSingleUserThunk, updateUserThunk } from '../store/user'
+import {
+	findSingleUserThunk,
+	updateUserThunk,
+	deleteUserThunk
+} from '../store/user'
 
 class UpdateUser extends React.Component {
 	constructor() {
@@ -24,12 +28,16 @@ class UpdateUser extends React.Component {
 		}
 		this.handleOnSubmit = this.handleOnSubmit.bind(this)
 		this.handleOnChange = this.handleOnChange.bind(this)
+		this.handleOnDelete = this.handleOnDelete.bind(this)
 	}
 	componentDidMount() {
 		if (this.props.match) {
 			this.props.findUser(this.props.match.params.id)
 			this.setState({ user: this.props.user.user })
 		}
+	}
+	handleOnDelete(id, admin) {
+		this.props.deleteUser(id, admin)
 	}
 	handleOnChange(event) {
 		event.preventDefault()
@@ -61,7 +69,7 @@ class UpdateUser extends React.Component {
 		let userObj
 		if (this.state.user.username) userObj = this.state.user
 		else if (this.props.user) userObj = this.props.user.user
-
+		console.log(userObj)
 		let {
 			email,
 			username,
@@ -75,9 +83,18 @@ class UpdateUser extends React.Component {
 			country
 		} = userObj
 		let displaybutton = 'none'
-		if (userObj.admin) displaybutton = 'block'
+		if (this.props.loggedIn.admin) displaybutton = 'block'
 		const displayStyle = {
 			display: displaybutton
+		}
+		let delStyle = 'none'
+		if (
+			this.props.loggedIn.id === parseInt(this.props.match.params.id) ||
+			this.props.loggedIn.admin
+		)
+			delStyle = 'block'
+		const displayDel = {
+			display: delStyle
 		}
 		return (
 			<div className="edit-user">
@@ -171,21 +188,33 @@ class UpdateUser extends React.Component {
 					</select>
 					<input type="submit" value="Submit" />
 				</form>
-				<input type="submit" value="Delete User" style={displayStyle} />
+				<input
+					type="submit"
+					value="Delete User"
+					style={displayDel}
+					onClick={() =>
+						this.handleOnDelete(
+							this.props.match.params.id,
+							this.props.loggedIn
+						)
+					}
+				/>
 			</div>
 		)
 	}
 }
 const mapState = state => {
 	return {
-		user: state.user
+		user: state.user,
+		loggedIn: state.user.loggedInUser
 	}
 }
 
 const mapDispatch = dispatch => {
 	return {
 		findUser: id => dispatch(findSingleUserThunk(id)),
-		updateUser: formInfo => dispatch(updateUserThunk(formInfo))
+		updateUser: formInfo => dispatch(updateUserThunk(formInfo)),
+		deleteUser: (id, admin) => dispatch(deleteUserThunk(id, admin))
 	}
 }
 export default connect(mapState, mapDispatch)(UpdateUser)
