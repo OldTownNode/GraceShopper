@@ -14,7 +14,8 @@ import {
 	UserHome,
 	UserOrders,
 	ConnectedSingleProductContainer,
-	ConnectedProductsContainer
+	ConnectedProductsContainer,
+	CartContainer
 } from './components'
 
 /**
@@ -41,6 +42,7 @@ class Routes extends Component {
 					path="/products"
 					component={ConnectedProductsContainer}
 				/>
+				<Route path="/cart" component={CartContainer} />
 
 				{isLoggedIn && (
 					<Switch>

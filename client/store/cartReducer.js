@@ -5,19 +5,24 @@ const INCREMENT_PRODUCT = 'INCREMENT_PRODUCT'
 const DECREMENT_PRODUCT = 'DECREMENT_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_ITEM'
 
-export const incrementProductActionCreator = product => ({
+const incrementProductActionCreator = product => ({
 	type: INCREMENT_PRODUCT,
 	product
 })
 
-export const decrementProductActionCreator = product => ({
+const decrementProductActionCreator = product => ({
 	type: DECREMENT_PRODUCT,
 	product
 })
 
-export const deleteProductActionCreator = product => ({
+const deleteProductActionCreator = product => ({
 	type: DELETE_PRODUCT,
 	product
+})
+
+const getCartActionCreator = cart => ({
+	type: GET_CART,
+	cart
 })
 
 export const incrementProductThunkCreator = product => {
@@ -36,8 +41,6 @@ export const decrementItemThunkCreator = product => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.put('/api/cart/decrement', product)
-
-			console.log('data', data)
 			if (data) {
 				dispatch(decrementProductActionCreator(product))
 			}
@@ -60,6 +63,19 @@ export const deleteItemThunkCreator = product => {
 	}
 }
 
+export const getCartThunkCreator = () => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get('/api/cart')
+			if (data) {
+				dispatch(getCartActionCreator(data))
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+}
+
 // eslint-disable-next-line complexity
 const cartReducer = (cart = {}, action) => {
 	let product = action.product
@@ -67,10 +83,7 @@ const cartReducer = (cart = {}, action) => {
 	switch (action.type) {
 		case INCREMENT_PRODUCT:
 			//if cart already has the item
-			console.log('type', product.id)
-			console.log('keys', Object.keys(cart))
 			if (Object.keys(cart).includes(product.id.toString())) {
-				console.log('we are inside')
 				let currentQty = cart[product.id]
 				newCart[product.id] = currentQty + 1
 			} else {
@@ -95,6 +108,9 @@ const cartReducer = (cart = {}, action) => {
 				delete newCart[product.id]
 			}
 			return newCart
+		case GET_CART:
+			console.log('in get cart reducer path. new cart:', action.cart)
+			return action.cart
 		default:
 			return cart
 	}
