@@ -37,9 +37,9 @@ class UserPage extends React.Component {
 		else uservalue = this.props.user
 		const { username, firstName, lastName, address, email } = uservalue
 		return (
-			<div>
-				<div>
-					<ul>
+			<div className="containerNoWrap">
+				<div className="card-vertical">
+					<ul className="">
 						<li>Username: {username}</li>
 						<li>
 							Name: {firstName} {lastName}
@@ -51,13 +51,15 @@ class UserPage extends React.Component {
 						to={`/users/${uservalue.id}/update`}
 						style={displayStyle}
 					>
-						<button>Edit User</button>
+						<button type="button">Edit User</button>
 					</Link>
 				</div>
-				<div style={displayStyle}>
+				<div style={displayStyle} className="card-vertical">
+					<p>Orders</p>
 					<UserOrders id={id} />
 				</div>
-				<div style={adminPanel}>
+				<div style={adminPanel} className="card-vertical">
+					<p>Admin Panel</p>
 					<Link to="/users">All Users</Link>
 				</div>
 			</div>

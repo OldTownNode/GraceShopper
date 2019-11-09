@@ -97,7 +97,7 @@ class UpdateUser extends React.Component {
 			display: delStyle
 		}
 		return (
-			<div className="editForm container-vertical">
+			<div className="editForm container">
 				<form
 					onSubmit={() => this.handleOnSubmit(event)}
 					className="card-vertical"

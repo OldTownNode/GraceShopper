@@ -13,10 +13,11 @@ class UserOrders extends Component {
 				{this.props.userOrders &&
 					this.props.userOrders.map(userOrder => {
 						return (
-							<p key={userOrder.id}>
-								Order ID: {userOrder.id}
-								Order Status:{userOrder.status}
-							</p>
+							<div key={userOrder.id}>
+								<span>Order ID: {userOrder.id}</span>
+								{'\t'}
+								<span>Order Status: {userOrder.status}</span>
+							</div>
 						)
 					})}
 			</div>

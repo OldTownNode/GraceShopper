@@ -9,7 +9,15 @@ a {
 label {
 	display: block;
 }
-
+a:link {
+	font-weight: 600;
+}
+a:visited {
+	color: #9daf72;
+}
+a:hover {
+	color: #859731;
+}
 nav a {
 	display: inline-block;
 	margin: 1em;
@@ -19,6 +27,7 @@ form div {
 	margin: 1em;
 	display: inline-block;
 }
+
 .container {
 	display: flex;
 	flex-direction: row;
@@ -27,6 +36,7 @@ form div {
 	justify-content: space-around;
 	background-color: #566047;
 }
+
 .card {
 	display: flex;
 	flex-direction: row;
@@ -76,6 +86,7 @@ h1:hover {
 
 .editForm {
 	width: 80vh;
+	margin: auto;
 }
 input[type='text'] {
 	padding: 5px 10px;
@@ -119,29 +130,67 @@ label {
 	border-radius: 4px;
 	cursor: pointer;
 }
-.container-vertical {
-	display: flex;
-	flex-direction: row;
-	margin: auto;
 
-	justify-content: space-around;
-	background-color: #566047;
-	border-radius: 20px;
-	border: 1px solid black;
-}
 .card-vertical {
 	display: flex;
 	border: 1px solid black;
 	flex-direction: column;
 	justify-content: space-around;
-	border-radius: 20px;
+	border-radius: 5px;
 	text-align: center;
 	background-color: #562f32;
 	color: white;
-	margin: 20px;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	width: 800px;
 	max-height: 800px;
 	padding: 10px;
 }
 
 /* edit-form end */
+/* userprofile */
+.card-vertical > ul {
+	list-style: none;
+}
+.card-vertical > li {
+	padding: 5px;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+	border-bottom: 1px solid #ccc;
+}
+
+li:last-child {
+	border: none;
+	padding-bottom: 10px;
+}
+
+button[type='button'] {
+	width: 50%;
+	background-color: #4caf50;
+	color: white;
+	padding: 14px 20px;
+	margin: auto;
+	margin-top: 8px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+button[type='button']:hover {
+	background-color: darkgreen;
+}
+.containerNoWrap {
+	display: flex;
+	flex-direction: column;
+	margin: 15px;
+	justify-content: space-around;
+	background-color: #566047;
+	flex-wrap: none;
+}
