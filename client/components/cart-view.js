@@ -12,8 +12,8 @@ export default function CartView(props) {
 	return (
 		<div>
 			{productIds.map((id, index) => {
-				let product = props.products.filter(product => {
-					return product.id.toString() === id
+				let product = props.products.filter(element => {
+					return element.id.toString() === id
 				})[0]
 				totalPrice += product.price * quantities[index]
 				return (

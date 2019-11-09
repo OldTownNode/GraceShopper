@@ -10,7 +10,6 @@ export { default as AllUsers } from './all-users'
 export { Login, Signup } from './auth-form'
 export { default as UserUpdate } from './update-user'
 export { default as ConnectedSingleProduct } from './single-product'
-// export { default as ConnectedProducts } from './products'
 export { default as UserOrders } from './UserOrders'
 export {
 	default as ConnectedSingleProductContainer
