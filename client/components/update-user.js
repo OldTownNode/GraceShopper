@@ -97,8 +97,11 @@ class UpdateUser extends React.Component {
 			display: delStyle
 		}
 		return (
-			<div className="edit-user">
-				<form onSubmit={() => this.handleOnSubmit(event)}>
+			<div className="editForm container-vertical">
+				<form
+					onSubmit={() => this.handleOnSubmit(event)}
+					className="card-vertical"
+				>
 					<label htmlFor="username">Username:</label>
 					<input
 						type="text"
@@ -189,8 +192,9 @@ class UpdateUser extends React.Component {
 					<input type="submit" value="Submit" />
 				</form>
 				<input
-					type="submit"
-					value="Delete User"
+					className="deleteButton"
+					type="delete"
+					value="Terminate Account"
 					style={displayDel}
 					onClick={() =>
 						this.handleOnDelete(
