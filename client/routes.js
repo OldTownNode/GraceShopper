@@ -49,6 +49,8 @@ class Routes extends Component {
 						<Route
 							path="/users/:id/update"
 							component={UserUpdate}
+						/>
+						<Route
 							path="/users/:id/orders"
 							component={UserOrders}
 						/>
