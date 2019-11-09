@@ -20,20 +20,3 @@ export default function SingleProduct(props) {
 		</div>
 	)
 }
-
-// const mapStateToProps = state => {
-// 	return {
-// 		singleProduct: state.productReducer.singleProduct
-// 	}
-// }
-
-// const mapDispatchToProps = dispatch => {
-// 	return {
-// 		fetchAProduct: id => dispatch(fetchAProduct(id))
-// 	}
-// }
-
-// const ConnectedSingleProduct = connect(mapStateToProps, mapDispatchToProps)(
-// 	SingleProduct
-// )
-// export default ConnectedSingleProduct
