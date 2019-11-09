@@ -194,3 +194,10 @@ button[type='button']:hover {
 	background-color: #566047;
 	flex-wrap: none;
 }
+div > div.squareBorder {
+	border-radius: 1px;
+	background-color: #566047;
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}

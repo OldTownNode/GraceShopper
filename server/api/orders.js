@@ -31,7 +31,8 @@ router.get('/:id', async (req, res, next) => {
 				where: {
 					id: req.params.id,
 					userId: req.session.userId
-				}
+				},
+				include: [{ model: Product, as: 'products' }]
 			})
 			if (Object.keys(orders).length > 0) {
 				res.json(orders)
