@@ -5,22 +5,22 @@ const INCREMENT_PRODUCT = 'INCREMENT_PRODUCT'
 const DECREMENT_PRODUCT = 'DECREMENT_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_ITEM'
 
-export const incrementProductActionCreator = product => ({
+const incrementProductActionCreator = product => ({
 	type: INCREMENT_PRODUCT,
 	product
 })
 
-export const decrementProductActionCreator = product => ({
+const decrementProductActionCreator = product => ({
 	type: DECREMENT_PRODUCT,
 	product
 })
 
-export const deleteProductActionCreator = product => ({
+const deleteProductActionCreator = product => ({
 	type: DELETE_PRODUCT,
 	product
 })
 
-export const getCartActionCreator = cart => ({
+const getCartActionCreator = cart => ({
 	type: GET_CART,
 	cart
 })
@@ -109,6 +109,7 @@ const cartReducer = (cart = {}, action) => {
 			}
 			return newCart
 		case GET_CART:
+			console.log('in get cart reducer path. new cart:', action.cart)
 			return action.cart
 		default:
 			return cart
