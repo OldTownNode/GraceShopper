@@ -4,6 +4,29 @@ const { Order, Product } = require('../db/models')
 router.get('/', async (req, res, next) => {
 	if (req.user) {
 		try {
+			let cartOrder = await Order.findOne({
+				where: {
+					userId: req.user.id,
+					status: 'inCart'
+				},
+				include: [{ model: Product, as: 'products' }]
+			})
+			let returnObject = {}
+			cartOrder.products.map(product => {
+				returnObject[product.id] = product.orderproduct.quantity
+			})
+			res.json(returnObject)
+		} catch (error) {
+			next(error)
+		}
+	} else {
+		//TODO handle guest case
+	}
+})
+
+router.get('/order', async (req, res, next) => {
+	if (req.user) {
+		try {
 			//TODO update
 			let cartOrder = await Order.findOne({
 				where: {
@@ -75,7 +98,6 @@ router.delete('/', async (req, res, next) => {
 					status: 'inCart'
 				}
 			})
-			console.log(cartOrder)
 			if (cartOrder) {
 				res.send(cartOrder.removeProduct(req.body.id))
 			} else {
