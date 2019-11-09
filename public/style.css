@@ -1,21 +1,74 @@
 body {
-  font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 label {
-  display: block;
+	display: block;
 }
 
 nav a {
-  display: inline-block;
-  margin: 1em;
+	display: inline-block;
+	margin: 1em;
 }
 
 form div {
-  margin: 1em;
-  display: inline-block;
+	margin: 1em;
+	display: inline-block;
+}
+.container {
+	display: flex;
+	flex-direction: row;
+	margin: 15px;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	background-color: #566047;
+}
+.card {
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	border-radius: 20px;
+	text-align: center;
+	background-color: #562f32;
+	color: white;
+	margin: 20px;
+	width: 500px;
+	max-height: 800px;
+	padding: 5px;
+}
+.linkcontainer {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 50%;
+	padding: 5px;
+}
+.h1 {
+	display: flex;
+	flex-direction: column;
+	flex-basis: 100%;
+	color: white;
+	flex: 1;
+}
+h1:hover {
+	color: gray;
+	font-weight: bold;
+}
+
+.img {
+	border-radius: 75px;
+	width: 250px;
+	height: 250px;
+}
+.priceinvcont {
+	text-align: center;
+}
+.priceinvcont > div {
+	display: inline-block;
 }
