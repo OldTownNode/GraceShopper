@@ -1,6 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { findSingleUserThunk, updateUserThunk } from '../store/user'
+import {
+	findSingleUserThunk,
+	updateUserThunk,
+	deleteUserThunk
+} from '../store/user'
 
 class UpdateUser extends React.Component {
 	constructor() {
@@ -18,17 +22,22 @@ class UpdateUser extends React.Component {
 				zipcode: '',
 				state: '',
 				country: '',
-				password: ''
+				password: '',
+				admin: 0
 			}
 		}
 		this.handleOnSubmit = this.handleOnSubmit.bind(this)
 		this.handleOnChange = this.handleOnChange.bind(this)
+		this.handleOnDelete = this.handleOnDelete.bind(this)
 	}
 	componentDidMount() {
 		if (this.props.match) {
 			this.props.findUser(this.props.match.params.id)
 			this.setState({ user: this.props.user.user })
 		}
+	}
+	handleOnDelete(id, admin) {
+		this.props.deleteUser(id, admin)
 	}
 	handleOnChange(event) {
 		event.preventDefault()
@@ -51,7 +60,8 @@ class UpdateUser extends React.Component {
 			zipcode: this.state.user.zipcode,
 			state: this.state.user.state,
 			country: this.state.user.country,
-			password: this.state.user.password
+			password: this.state.user.password,
+			admin: !!parseInt(this.state.user.admin)
 		}
 		this.props.updateUser(data)
 	}
@@ -59,6 +69,7 @@ class UpdateUser extends React.Component {
 		let userObj
 		if (this.state.user.username) userObj = this.state.user
 		else if (this.props.user) userObj = this.props.user.user
+		console.log(userObj)
 		let {
 			email,
 			username,
@@ -71,10 +82,26 @@ class UpdateUser extends React.Component {
 			state,
 			country
 		} = userObj
-
+		let displaybutton = 'none'
+		if (this.props.loggedIn.admin) displaybutton = 'block'
+		const displayStyle = {
+			display: displaybutton
+		}
+		let delStyle = 'none'
+		if (
+			this.props.loggedIn.id === parseInt(this.props.match.params.id) ||
+			this.props.loggedIn.admin
+		)
+			delStyle = 'block'
+		const displayDel = {
+			display: delStyle
+		}
 		return (
-			<div className="edit-user">
-				<form onSubmit={() => this.handleOnSubmit(event)}>
+			<div className="editForm container">
+				<form
+					onSubmit={() => this.handleOnSubmit(event)}
+					className="card-vertical"
+				>
 					<label htmlFor="username">Username:</label>
 					<input
 						type="text"
@@ -151,22 +178,47 @@ class UpdateUser extends React.Component {
 						defaultValue={country}
 						onChange={this.handleOnChange}
 					/>
+					<label htmlFor="admin" style={displayStyle}>
+						Admin:
+					</label>
+					<select
+						name="admin"
+						onChange={this.handleOnChange}
+						style={displayStyle}
+					>
+						<option value="0">False</option>
+						<option value="1">True</option>
+					</select>
 					<input type="submit" value="Submit" />
 				</form>
+				<input
+					className="deleteButton"
+					type="delete"
+					value="Terminate Account"
+					style={displayDel}
+					onClick={() =>
+						this.handleOnDelete(
+							this.props.match.params.id,
+							this.props.loggedIn
+						)
+					}
+				/>
 			</div>
 		)
 	}
 }
 const mapState = state => {
 	return {
-		user: state.user
+		user: state.user,
+		loggedIn: state.user.loggedInUser
 	}
 }
 
 const mapDispatch = dispatch => {
 	return {
 		findUser: id => dispatch(findSingleUserThunk(id)),
-		updateUser: formInfo => dispatch(updateUserThunk(formInfo))
+		updateUser: formInfo => dispatch(updateUserThunk(formInfo)),
+		deleteUser: (id, admin) => dispatch(deleteUserThunk(id, admin))
 	}
 }
 export default connect(mapState, mapDispatch)(UpdateUser)

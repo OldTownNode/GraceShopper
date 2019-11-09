@@ -9,6 +9,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const FIND_SINGLE_USER = 'FIND_SINGLE_USER'
 const ALL_USERS = 'ALL_USERS'
 const UPDATE_USER = 'UPDATE_USER'
+
 /**
  * INITIAL STATE
  */
@@ -30,11 +31,22 @@ const updateUser = user => ({ type: UPDATE_USER, user })
  * THUNK CREATORS
  */
 //custom thunks start
+export const deleteUserThunk = (id, admin) => async dispatch => {
+	try {
+		await axios.delete(`/api/users/${id}`)
+		dispatch(removeUser())
+		if (!admin.admin) history.push('/login')
+		else history.push(`/users/${admin.id}`)
+	} catch (err) {
+		console.error(err)
+	}
+}
+
 export const updateUserThunk = user => async dispatch => {
 	try {
 		const { data } = await axios.put(`/api/users/${user.id}`, user)
-
 		dispatch(updateUser(data))
+		history.push(`/users/${user.id}`)
 	} catch (error) {
 		console.error(error)
 	}

@@ -62,7 +62,8 @@ router.get('/:id', async (req, res, next) => {
 							'street',
 							'zipcode',
 							'state',
-							'country'
+							'country',
+							'admin'
 						]
 					})
 					res.json(users)
@@ -79,7 +80,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.get('/:id/orders', async (req, res, next) => {
-	if (req.user.admin) {
+	if (req.user && req.user.admin) {
 		try {
 			const userOrders = await Order.findAll({
 				where: {
@@ -131,10 +132,10 @@ router.put('/:id', async (req, res, next) => {
 					}
 				)
 
-				if (user.admin) {
+				if (user.admin && !(user.id === parseInt(req.params.id))) {
 					await User.update(
 						{
-							admin: req.admin
+							admin: req.body.admin
 						},
 						{
 							where: { id: req.params.id }
@@ -143,6 +144,26 @@ router.put('/:id', async (req, res, next) => {
 				}
 
 				res.json(user)
+			} catch (err) {
+				next(err)
+			}
+		} else {
+			console.error('Insufficient Rights')
+		}
+	} catch (error) {
+		next(error)
+	}
+})
+
+router.delete('/:id', async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.session.userId)
+		if (user.id === parseInt(req.params.id) || user.admin) {
+			try {
+				const destroyed = await User.destroy({
+					where: { id: parseInt(req.params.id) }
+				})
+				res.json(destroyed)
 			} catch (err) {
 				next(err)
 			}
