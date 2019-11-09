@@ -54,7 +54,7 @@ router.put('/decrement', async (req, res, next) => {
 					status: 'inCart'
 				}
 			})
-			res.send(
+			res.json(
 				await cartOrder[0].decrementProduct(req.body.id, req.body.price)
 			)
 		} catch (error) {
@@ -87,6 +87,26 @@ router.delete('/', async (req, res, next) => {
 	} else {
 		//TODO handle Session version
 		res.send('not logged in')
+	}
+})
+
+router.put('/checkout', async (req, res, next) => {
+	if (req.user) {
+		try {
+			let cartOrder = await Order.findOne({
+				where: {
+					userId: req.user.id,
+					status: 'inCart'
+				}
+			})
+			cartOrder.status = 'complete'
+			await cartOrder.save()
+			res.send(cartOrder)
+		} catch (error) {
+			next(error)
+		}
+	} else {
+		res.send('not logged in not set up yet')
 	}
 })
 

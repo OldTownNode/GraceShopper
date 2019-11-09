@@ -11,7 +11,13 @@ class Products extends React.Component {
 		return (
 			<div className="container">
 				{this.props.products.map(product => {
-					return <SingleProduct key={product.id} products={product} />
+					return (
+						<SingleProduct
+							key={product.id}
+							products={product}
+							increment={this.props.increment}
+						/>
+					)
 				})}
 			</div>
 		)
