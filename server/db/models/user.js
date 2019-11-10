@@ -176,7 +176,7 @@ const User = db.define(
 		},
 		country: {
 			type: Sequelize.STRING,
-			defaultValue: '',
+			defaultValue: ' ',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {

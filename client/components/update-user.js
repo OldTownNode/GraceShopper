@@ -28,11 +28,10 @@ class UpdateUser extends React.Component {
 			},
 			eventName: '',
 			warning: '',
-
 			wusername: 'hidden',
 			wemail: 'hidden',
 			wpassword: 'hidden',
-			wfirstname: 'hidden',
+			wfirstName: 'hidden',
 			wlastName: 'hidden',
 			whouseNumber: 'hidden',
 			wstreet: 'hidden',
@@ -48,6 +47,7 @@ class UpdateUser extends React.Component {
 		this.validateFirst = validateFirst.bind(this)
 		this.setStateToHidden = setStateToHidden.bind(this)
 		this.validateEmail = validateEmail.bind(this)
+		this.notEmpty = notEmpty.bind(this)
 	}
 	componentDidMount() {
 		if (this.props.match) {
@@ -70,7 +70,8 @@ class UpdateUser extends React.Component {
 				event.target.name.substring(1)
 		})
 		let lastEntry = event.target.value
-		let target = 'w' + event.target.name.toLowerCase()
+		let target = 'w' + event.target.name
+		console.log(event.target.name)
 		this.setStateToHidden()
 		switch (event.target.name) {
 			case 'username':
@@ -85,8 +86,18 @@ class UpdateUser extends React.Component {
 				this.validateXSS(lastEntry, target)
 				this.validateEmail(lastEntry, target)
 				break
+			case 'lastName':
+				this.validateXSS(lastEntry, target)
+				this.validateFirst(lastEntry, target)
+				break
+			case 'apt':
+				this.validateXSS(lastEntry, target)
+				break
 			default:
+				this.validateXSS(lastEntry, target)
+				this.notEmpty(lastEntry, target)
 		}
+		console.log(this.state)
 	}
 
 	handleOnSubmit(event) {
@@ -177,7 +188,15 @@ class UpdateUser extends React.Component {
 						defaultValue={email}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="password">Password:</label>
+					<label htmlFor="password">
+						Password:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wpassword }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="password"
 						name="password"
@@ -187,7 +206,7 @@ class UpdateUser extends React.Component {
 						First Name:{' '}
 						<span
 							className="warning"
-							style={{ visibility: this.state.wfirstname }}
+							style={{ visibility: this.state.wfirstName }}
 						>
 							{this.state.eventName} must {this.state.warning}
 						</span>
@@ -198,35 +217,75 @@ class UpdateUser extends React.Component {
 						defaultValue={firstName}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="lastName">Last Name:</label>
+					<label htmlFor="lastName">
+						Last Name:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wlastName }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="lastName"
 						defaultValue={lastName}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="houseNumber">House Number:</label>
+					<label htmlFor="houseNumber">
+						House Number:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.whouseNumber }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="houseNumber"
 						defaultValue={houseNumber}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="street">Street:</label>
+					<label htmlFor="street">
+						Street:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wstreet }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="street"
 						defaultValue={street}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="apt">Apt#:</label>
+					<label htmlFor="apt">
+						Apt#:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wapt }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="apt"
 						defaultValue={apt}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="zipcode">Zipcode:</label>
+					<label htmlFor="zipcode">
+						Zipcode:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wzipcode }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="zipcode"
@@ -292,7 +351,15 @@ class UpdateUser extends React.Component {
 						<option value="WI">Wisconsin</option>
 						<option value="WY">Wyoming</option>
 					</select>
-					<label htmlFor="country">Country:</label>
+					<label htmlFor="country">
+						Country:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wcountry }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="country"
@@ -362,7 +429,6 @@ function validateXSS(lastEntry, target) {
 }
 
 function validateName(lastEntry, target) {
-	console.log('vN', target)
 	if (lastEntry.length < 5 || lastEntry.length > 15) {
 		this.setState({
 			warning: 'be between 5 and 15 characters long',
@@ -372,12 +438,8 @@ function validateName(lastEntry, target) {
 }
 
 function validateFirst(lastEntry, target) {
-	if (lastEntry.length < 1) {
-		this.setState({
-			warning: 'be not empty to place an order',
-			[target]: 'visible'
-		})
-	} else if (
+	this.notEmpty(lastEntry, target)
+	if (
 		(lastEntry.charCodeAt(lastEntry.length - 1) < 97 &&
 			lastEntry.charCodeAt(lastEntry.length - 1) > 90) ||
 		lastEntry.charCodeAt(lastEntry.length - 1) < 65 ||
@@ -386,25 +448,31 @@ function validateFirst(lastEntry, target) {
 		this.setState({ warning: 'be a valid name', [target]: 'visible' })
 	}
 }
+
 function validateEmail(lastEntry, target) {
-	if (lastEntry.length < 1) {
-		this.setState({
-			warning: 'not be empty',
-			[target]: 'visible'
-		})
-	} else if (lastEntry.indexOf('.') === -1 || lastEntry.indexOf('@') === -1) {
+	this.notEmpty(lastEntry, target)
+	if (lastEntry.indexOf('.') === -1 || lastEntry.indexOf('@') === -1) {
 		this.setState({
 			warning: 'be a valid email',
 			[target]: 'visible'
 		})
 	}
 }
+function notEmpty(lastEntry, target) {
+	if (lastEntry.length < 1) {
+		this.setState({
+			warning: 'not be empty',
+			[target]: 'visible'
+		})
+	}
+}
+
 function setStateToHidden() {
 	this.setState({
 		wusername: 'hidden',
 		wemail: 'hidden',
 		wpassword: 'hidden',
-		wfirstname: 'hidden',
+		wfirstName: 'hidden',
 		wlastName: 'hidden',
 		whouseNumber: 'hidden',
 		wstreet: 'hidden',
@@ -412,4 +480,20 @@ function setStateToHidden() {
 		wzipcode: 'hidden',
 		wcountry: 'hidden'
 	})
+}
+
+function fullCheck() {
+	let {
+		email,
+		username,
+		firstName,
+		lastName,
+		houseNumber,
+		apt,
+		street,
+		zipcode,
+		state,
+		country,
+		password
+	} = this.state.user
 }
