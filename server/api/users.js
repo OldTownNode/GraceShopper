@@ -123,7 +123,8 @@ router.put('/:id', async (req, res, next) => {
 						street: req.body.street,
 						houseNumber: req.body.houseNumber,
 						zipcode: req.body.zipcode,
-						state: req.body.state
+						state: req.body.state,
+						country: req.body.country
 					},
 
 					{

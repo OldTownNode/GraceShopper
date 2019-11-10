@@ -14,7 +14,11 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
-				}
+				},
+				isAlpha: {
+					args: true,
+					msg: 'Must not contain numbers'
+				} //HM Passport Office will not print numerals (0–9) on a passport — only alphabetical characters (A–Z), hypens and apostrophes.  If you have a number in your name and it appears on your original birth certificate, HM Passport Office will write out the number alphabetically, for example, as Super Eight or Four Real.  However names containing numbers on a deed poll will be refused.
 			}
 		},
 		lastName: {
@@ -26,6 +30,10 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
+				},
+				isAlpha: {
+					args: true,
+					msg: 'Must not contain numbers'
 				}
 			}
 		},
@@ -176,6 +184,10 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
+				},
+				isAlpha: {
+					args: true,
+					msg: 'Must be valid country'
 				}
 			}
 		},

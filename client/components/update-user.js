@@ -28,11 +28,26 @@ class UpdateUser extends React.Component {
 			},
 			eventName: '',
 			warning: '',
-			displayWarning: false
+
+			wusername: 'hidden',
+			wemail: 'hidden',
+			wpassword: 'hidden',
+			wfirstname: 'hidden',
+			wlastName: 'hidden',
+			whouseNumber: 'hidden',
+			wstreet: 'hidden',
+			wapt: 'hidden',
+			wzipcode: 'hidden',
+			wcountry: 'hidden'
 		}
 		this.handleOnSubmit = this.handleOnSubmit.bind(this)
 		this.handleOnChange = this.handleOnChange.bind(this)
 		this.handleOnDelete = this.handleOnDelete.bind(this)
+		this.validateName = validateName.bind(this)
+		this.validateXSS = validateXSS.bind(this)
+		this.validateFirst = validateFirst.bind(this)
+		this.setStateToHidden = setStateToHidden.bind(this)
+		this.validateEmail = validateEmail.bind(this)
 	}
 	componentDidMount() {
 		if (this.props.match) {
@@ -45,19 +60,6 @@ class UpdateUser extends React.Component {
 		this.props.deleteUser(id, admin)
 	}
 	handleOnChange(event) {
-		let {
-			email,
-			username,
-			firstName,
-			lastName,
-			houseNumber,
-			apt,
-			street,
-			zipcode,
-			state,
-			country,
-			password
-		} = this.state.user
 		event.preventDefault()
 		this.setState({
 			user: { [event.target.name]: event.target.value }
@@ -68,32 +70,25 @@ class UpdateUser extends React.Component {
 				event.target.name.substring(1)
 		})
 		let lastEntry = event.target.value
+		let target = 'w' + event.target.name.toLowerCase()
+		this.setStateToHidden()
 		switch (event.target.name) {
 			case 'username':
-				this.validateName(lastEntry)
+				this.validateXSS(lastEntry, target)
+				this.validateName(lastEntry, target)
+				break
+			case 'firstName':
+				this.validateXSS(lastEntry, target)
+				this.validateFirst(lastEntry, target)
+				break
+			case 'email':
+				this.validateXSS(lastEntry, target)
+				this.validateEmail(lastEntry, target)
 				break
 			default:
 		}
 	}
-	validateName = lastEntry => {
-		if (
-			lastEntry[lastEntry.length - 1] === ';' ||
-			lastEntry[lastEntry.length - 1] === '<' ||
-			lastEntry[lastEntry.length - 1] === '>' ||
-			lastEntry.indexOf(';') !== -1 ||
-			lastEntry.indexOf('<') !== -1 ||
-			lastEntry.indexOf('>') !== -1
-		) {
-			this.setState({ warning: 'not include illegal characters ; < >' })
-			this.setState({ displayWarning: true })
-		} else if (lastEntry.length < 5 || lastEntry.length > 15) {
-			this.setState({ warning: 'be between 5 and 15 characters long' })
-			this.setState({ displayWarning: true })
-		} else {
-			this.setState({ warning: '' })
-			this.setState({ displayWarning: false })
-		}
-	}
+
 	handleOnSubmit(event) {
 		event.preventDefault()
 
@@ -145,12 +140,7 @@ class UpdateUser extends React.Component {
 		const displayDel = {
 			display: delStyle
 		}
-		let warningStyle = 'hidden'
-		if (this.state.displayWarning) warningStyle = 'visible'
-		else if (!this.state.displayWarning) warningStyle = 'hidden'
-		const warningBox = {
-			visibility: warningStyle
-		}
+
 		return (
 			<div className="editForm container">
 				<form
@@ -159,7 +149,10 @@ class UpdateUser extends React.Component {
 				>
 					<label htmlFor="username">
 						Username:{' '}
-						<span className="warning" style={warningBox}>
+						<span
+							className="warning"
+							style={{ visibility: this.state.wusername }}
+						>
 							{this.state.eventName} must {this.state.warning}
 						</span>
 					</label>
@@ -169,7 +162,15 @@ class UpdateUser extends React.Component {
 						defaultValue={username}
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="email">E-mail:</label>
+					<label htmlFor="email">
+						E-mail:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wemail }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="email"
@@ -182,7 +183,15 @@ class UpdateUser extends React.Component {
 						name="password"
 						onChange={this.handleOnChange}
 					/>
-					<label htmlFor="firstName">First Name:</label>
+					<label htmlFor="firstName">
+						First Name:{' '}
+						<span
+							className="warning"
+							style={{ visibility: this.state.wfirstname }}
+						>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="firstName"
@@ -335,3 +344,72 @@ const mapDispatch = dispatch => {
 	}
 }
 export default connect(mapState, mapDispatch)(UpdateUser)
+
+function validateXSS(lastEntry, target) {
+	if (
+		lastEntry[lastEntry.length - 1] === ';' ||
+		lastEntry[lastEntry.length - 1] === '<' ||
+		lastEntry[lastEntry.length - 1] === '>' ||
+		lastEntry.indexOf(';') !== -1 ||
+		lastEntry.indexOf('<') !== -1 ||
+		lastEntry.indexOf('>') !== -1
+	) {
+		this.setState({
+			warning: 'not include illegal characters ; < >',
+			[target]: 'visible'
+		})
+	}
+}
+
+function validateName(lastEntry, target) {
+	console.log('vN', target)
+	if (lastEntry.length < 5 || lastEntry.length > 15) {
+		this.setState({
+			warning: 'be between 5 and 15 characters long',
+			[target]: 'visible'
+		})
+	}
+}
+
+function validateFirst(lastEntry, target) {
+	if (lastEntry.length < 1) {
+		this.setState({
+			warning: 'be not empty to place an order',
+			[target]: 'visible'
+		})
+	} else if (
+		(lastEntry.charCodeAt(lastEntry.length - 1) < 97 &&
+			lastEntry.charCodeAt(lastEntry.length - 1) > 90) ||
+		lastEntry.charCodeAt(lastEntry.length - 1) < 65 ||
+		lastEntry.charCodeAt(lastEntry.length - 1) > 122
+	) {
+		this.setState({ warning: 'be a valid name', [target]: 'visible' })
+	}
+}
+function validateEmail(lastEntry, target) {
+	if (lastEntry.length < 1) {
+		this.setState({
+			warning: 'not be empty',
+			[target]: 'visible'
+		})
+	} else if (lastEntry.indexOf('.') === -1 || lastEntry.indexOf('@') === -1) {
+		this.setState({
+			warning: 'be a valid email',
+			[target]: 'visible'
+		})
+	}
+}
+function setStateToHidden() {
+	this.setState({
+		wusername: 'hidden',
+		wemail: 'hidden',
+		wpassword: 'hidden',
+		wfirstname: 'hidden',
+		wlastName: 'hidden',
+		whouseNumber: 'hidden',
+		wstreet: 'hidden',
+		wapt: 'hidden',
+		wzipcode: 'hidden',
+		wcountry: 'hidden'
+	})
+}
