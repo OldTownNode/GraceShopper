@@ -128,6 +128,7 @@ class UpdateUser extends React.Component {
 			admin: !!parseInt(this.state.user.admin)
 		}
 		this.props.updateUser(data)
+		console.log(this.props)
 	}
 	render() {
 		let userObj
@@ -146,6 +147,7 @@ class UpdateUser extends React.Component {
 			state,
 			country
 		} = userObj
+		const { error } = this.props
 		let displaybutton = 'none'
 		if (this.props.loggedIn.admin) displaybutton = 'block'
 		const displayStyle = {
@@ -171,6 +173,8 @@ class UpdateUser extends React.Component {
 					onSubmit={() => this.handleOnSubmit(event)}
 					className="card-vertical"
 				>
+					{error &&
+						error.response && <div> {error.response.data} </div>}
 					<label htmlFor="username">
 						Username:{' '}
 						{!this.state.finalC ? (
@@ -474,6 +478,7 @@ class UpdateUser extends React.Component {
 							<span />
 						)}
 					</label>
+
 					<span
 						style={{
 							visibility: this.state.wcountry,
@@ -523,7 +528,8 @@ class UpdateUser extends React.Component {
 const mapState = state => {
 	return {
 		user: state.user,
-		loggedIn: state.user.loggedInUser
+		loggedIn: state.user.loggedInUser,
+		error: state.user.user.error
 	}
 }
 

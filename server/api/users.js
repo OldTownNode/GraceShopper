@@ -71,7 +71,7 @@ router.get('/:id', async (req, res, next) => {
 					next(err)
 				}
 			} else {
-				console.error('Insufficient Rights')
+				res.status(401).send('Insufficient Rights')
 			}
 		})
 	} catch (error) {
@@ -146,10 +146,10 @@ router.put('/:id', async (req, res, next) => {
 
 				res.json(user)
 			} catch (err) {
-				next(err)
+				res.status(401).send(err.message)
 			}
 		} else {
-			console.error('Insufficient Rights')
+			res.status(401).send('Insufficient Rights')
 		}
 	} catch (error) {
 		next(error)
@@ -169,7 +169,7 @@ router.delete('/:id', async (req, res, next) => {
 				next(err)
 			}
 		} else {
-			console.error('Insufficient Rights')
+			res.status(401).send('Insufficient Rights')
 		}
 	} catch (error) {
 		next(error)

@@ -8,7 +8,6 @@ class Orders extends React.Component {
 		this.props.getAllOrders()
 	}
 	render() {
-		console.log(orders)
 		return (
 			<div>
 				{this.props.orders &&

@@ -176,7 +176,7 @@ const User = db.define(
 		},
 		country: {
 			type: Sequelize.STRING,
-			defaultValue: ' ',
+			defaultValue: '',
 			validate: {
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
@@ -185,8 +185,8 @@ const User = db.define(
 						)
 					}
 				},
-				isAlpha: {
-					args: true,
+				is: {
+					args: /^[a-z]*$/i,
 					msg: 'Must be valid country'
 				}
 			}
