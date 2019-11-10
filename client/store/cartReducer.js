@@ -29,8 +29,9 @@ export const incrementProductThunkCreator = product => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.put('/api/cart/increment', product)
-			//TODO check here if post was successful
-			dispatch(incrementProductActionCreator(product))
+			if (data) {
+				dispatch(incrementProductActionCreator(product))
+			}
 		} catch (error) {
 			console.error(error)
 		}
@@ -53,9 +54,9 @@ export const decrementItemThunkCreator = product => {
 export const deleteItemThunkCreator = product => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.delete('/api/cart', product)
-			if (data > 0) {
-				dispatch(decrementProductActionCreator(product))
+			const { data } = await axios.delete(`/api/cart/${product.id}`)
+			if (data) {
+				dispatch(deleteProductActionCreator(product))
 			}
 		} catch (error) {
 			console.error(error)
@@ -104,12 +105,11 @@ const cartReducer = (cart = {}, action) => {
 			}
 			return newCart
 		case DELETE_PRODUCT:
-			if (Object.keys(cart).includes(product.id)) {
+			if (Object.keys(cart).includes(product.id.toString())) {
 				delete newCart[product.id]
 			}
 			return newCart
 		case GET_CART:
-			console.log('in get cart reducer path. new cart:', action.cart)
 			return action.cart
 		default:
 			return cart
