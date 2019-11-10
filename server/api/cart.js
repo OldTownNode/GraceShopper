@@ -89,7 +89,7 @@ router.put('/decrement', async (req, res, next) => {
 	}
 })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/:productId', async (req, res, next) => {
 	if (req.user) {
 		try {
 			let cartOrder = await Order.findOne({
@@ -99,9 +99,9 @@ router.delete('/', async (req, res, next) => {
 				}
 			})
 			if (cartOrder) {
-				res.send(cartOrder.removeProduct(req.body.id))
+				res.send(cartOrder.removeProduct(req.params.productId))
 			} else {
-				res.send({})
+				res.json(undefined)
 			}
 		} catch (error) {
 			next(error)

@@ -1,11 +1,9 @@
 import React from 'react'
-import SingleProduct from './single-product'
+import CartListItem from './cart-list-item'
 
 export default function CartView(props) {
 	const productIds = Object.keys(props.cart)
 	const quantities = Object.values(props.cart)
-
-	console.log('in cartview. props: ', props)
 
 	let totalPrice = 0.0
 
@@ -15,13 +13,20 @@ export default function CartView(props) {
 				let product = props.products.filter(element => {
 					return element.id.toString() === id
 				})[0]
-				totalPrice += product.price * quantities[index]
-				return (
-					<span key={id}>
-						<SingleProduct products={product} />
-						<p>In Cart: {quantities[index]}</p>
-					</span>
-				)
+				if (product) {
+					totalPrice += product.price * quantities[index]
+					return (
+						<span key={id}>
+							<CartListItem
+								product={product}
+								quantity={quantities[index]}
+								increment={props.increment}
+								decrement={props.decrement}
+								delete={props.delete}
+							/>
+						</span>
+					)
+				}
 			})}
 			<h4>Total: ${totalPrice}</h4>
 		</div>
