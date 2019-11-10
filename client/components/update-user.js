@@ -160,18 +160,11 @@ class UpdateUser extends React.Component {
 		const displayDel = {
 			display: delStyle
 		}
-		let warningStyle = 'hidden'
-		if (this.state.finalC === 0) warningStyle = 'visible'
-		else if (this.state.finalC === 1) warningStyle = 'hidden'
-		const warningBox = {
-			visibility: warningStyle
-		}
+
 		let borderStyle = 'none'
 		if (this.state.finalC) borderStyle = '5px solid red'
 		else if (!this.state.finalC) borderStyle = 'none'
-		// const warningBorder = {
-		// 	border: borderStyle,
-		// }
+
 		return (
 			<div className="editForm container">
 				<form
@@ -203,6 +196,7 @@ class UpdateUser extends React.Component {
 						name="username"
 						defaultValue={username}
 						onChange={this.handleOnChange}
+						maxLength="15"
 					/>
 
 					<label htmlFor="email">
@@ -225,10 +219,11 @@ class UpdateUser extends React.Component {
 						}}
 					/>
 					<input
-						type="text"
+						type="email"
 						name="email"
 						defaultValue={email}
 						onChange={this.handleOnChange}
+						pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 					/>
 					<label htmlFor="password">
 						Password:{' '}
@@ -253,6 +248,9 @@ class UpdateUser extends React.Component {
 						type="password"
 						name="password"
 						onChange={this.handleOnChange}
+						maxLength="15"
+						minLength="6"
+						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 					/>
 					<label htmlFor="firstName">
 						First Name:{' '}
