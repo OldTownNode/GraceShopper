@@ -18,8 +18,13 @@ class UserOrders extends Component {
 								className="squareBorder card"
 							>
 								<span>
-									Order Date:{' '}
-									{userOrder.createdAt.substring(0, 10)}
+									Order Status:{' '}
+									{userOrder.status === 'inCart'
+										? 'In Cart'
+										: `Shipped On ${userOrder.createdAt.substring(
+												0,
+												10
+										  )}`}
 								</span>
 								{'\t'}
 								<span>Order ID: {userOrder.id}</span>

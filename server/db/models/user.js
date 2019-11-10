@@ -115,7 +115,7 @@ const User = db.define(
 			}
 		},
 		houseNumber: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING, //https://en.wikipedia.org/wiki/House_numbering
 			defaultValue: '',
 			validate: {
 				validAdd(value) {
@@ -141,7 +141,7 @@ const User = db.define(
 			}
 		},
 		zipcode: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING, //https://www.postalcodesincanada.com/
 			defaultValue: '',
 			validate: {
 				validAdd(value) {
@@ -209,6 +209,11 @@ const User = db.define(
 	{
 		hooks: {
 			beforeCreate: user => {
+				user.address = `${user.houseNumber}, ${user.street}, ${
+					user.apt
+				}, ${user.zipcode}, ${user.state}, ${user.country}`
+			},
+			beforeUpdate: user => {
 				user.address = `${user.houseNumber}, ${user.street}, ${
 					user.apt
 				}, ${user.zipcode}, ${user.state}, ${user.country}`

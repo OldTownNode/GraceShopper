@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import { connect } from 'react-redux'
 import {
@@ -24,7 +25,10 @@ class UpdateUser extends React.Component {
 				country: '',
 				password: '',
 				admin: 0
-			}
+			},
+			eventName: '',
+			warning: '',
+			displayWarning: false
 		}
 		this.handleOnSubmit = this.handleOnSubmit.bind(this)
 		this.handleOnChange = this.handleOnChange.bind(this)
@@ -36,14 +40,59 @@ class UpdateUser extends React.Component {
 			this.setState({ user: this.props.user.user })
 		}
 	}
+
 	handleOnDelete(id, admin) {
 		this.props.deleteUser(id, admin)
 	}
 	handleOnChange(event) {
+		let {
+			email,
+			username,
+			firstName,
+			lastName,
+			houseNumber,
+			apt,
+			street,
+			zipcode,
+			state,
+			country,
+			password
+		} = this.state.user
 		event.preventDefault()
 		this.setState({
 			user: { [event.target.name]: event.target.value }
 		})
+		this.setState({
+			eventName:
+				event.target.name[0].toUpperCase() +
+				event.target.name.substring(1)
+		})
+		let lastEntry = event.target.value
+		switch (event.target.name) {
+			case 'username':
+				this.validateName(lastEntry)
+				break
+			default:
+		}
+	}
+	validateName = lastEntry => {
+		if (
+			lastEntry[lastEntry.length - 1] === ';' ||
+			lastEntry[lastEntry.length - 1] === '<' ||
+			lastEntry[lastEntry.length - 1] === '>' ||
+			lastEntry.indexOf(';') !== -1 ||
+			lastEntry.indexOf('<') !== -1 ||
+			lastEntry.indexOf('>') !== -1
+		) {
+			this.setState({ warning: 'not include illegal characters ; < >' })
+			this.setState({ displayWarning: true })
+		} else if (lastEntry.length < 5 || lastEntry.length > 15) {
+			this.setState({ warning: 'be between 5 and 15 characters long' })
+			this.setState({ displayWarning: true })
+		} else {
+			this.setState({ warning: '' })
+			this.setState({ displayWarning: false })
+		}
 	}
 	handleOnSubmit(event) {
 		event.preventDefault()
@@ -69,7 +118,7 @@ class UpdateUser extends React.Component {
 		let userObj
 		if (this.state.user.username) userObj = this.state.user
 		else if (this.props.user) userObj = this.props.user.user
-		console.log(userObj)
+
 		let {
 			email,
 			username,
@@ -96,13 +145,24 @@ class UpdateUser extends React.Component {
 		const displayDel = {
 			display: delStyle
 		}
+		let warningStyle = 'hidden'
+		if (this.state.displayWarning) warningStyle = 'visible'
+		else if (!this.state.displayWarning) warningStyle = 'hidden'
+		const warningBox = {
+			visibility: warningStyle
+		}
 		return (
 			<div className="editForm container">
 				<form
 					onSubmit={() => this.handleOnSubmit(event)}
 					className="card-vertical"
 				>
-					<label htmlFor="username">Username:</label>
+					<label htmlFor="username">
+						Username:{' '}
+						<span className="warning" style={warningBox}>
+							{this.state.eventName} must {this.state.warning}
+						</span>
+					</label>
 					<input
 						type="text"
 						name="username"
@@ -118,7 +178,7 @@ class UpdateUser extends React.Component {
 					/>
 					<label htmlFor="password">Password:</label>
 					<input
-						type="text"
+						type="password"
 						name="password"
 						onChange={this.handleOnChange}
 					/>
@@ -132,7 +192,7 @@ class UpdateUser extends React.Component {
 					<label htmlFor="lastName">Last Name:</label>
 					<input
 						type="text"
-						name="username"
+						name="lastName"
 						defaultValue={lastName}
 						onChange={this.handleOnChange}
 					/>
@@ -165,12 +225,64 @@ class UpdateUser extends React.Component {
 						onChange={this.handleOnChange}
 					/>
 					<label htmlFor="state">State:</label>
-					<input
-						type="text"
+					<select
 						name="state"
-						defaultValue={state}
 						onChange={this.handleOnChange}
-					/>
+						value={this.state.userstate}
+					>
+						<option value="">Select State</option>
+						<option value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="AZ">Arizona</option>
+						<option value="AR">Arkansas</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+						<option value="CT">Connecticut</option>
+						<option value="DE">Delaware</option>
+						<option value="DC">District Of Columbia</option>
+						<option value="FL">Florida</option>
+						<option value="GA">Georgia</option>
+						<option value="HI">Hawaii</option>
+						<option value="ID">Idaho</option>
+						<option value="IL">Illinois</option>
+						<option value="IN">Indiana</option>
+						<option value="IA">Iowa</option>
+						<option value="KS">Kansas</option>
+						<option value="KY">Kentucky</option>
+						<option value="LA">Louisiana</option>
+						<option value="ME">Maine</option>
+						<option value="MD">Maryland</option>
+						<option value="MA">Massachusetts</option>
+						<option value="MI">Michigan</option>
+						<option value="MN">Minnesota</option>
+						<option value="MS">Mississippi</option>
+						<option value="MO">Missouri</option>
+						<option value="MT">Montana</option>
+						<option value="NE">Nebraska</option>
+						<option value="NV">Nevada</option>
+						<option value="NH">New Hampshire</option>
+						<option value="NJ">New Jersey</option>
+						<option value="NM">New Mexico</option>
+						<option value="NY">New York</option>
+						<option value="NC">North Carolina</option>
+						<option value="ND">North Dakota</option>
+						<option value="OH">Ohio</option>
+						<option value="OK">Oklahoma</option>
+						<option value="OR">Oregon</option>
+						<option value="PA">Pennsylvania</option>
+						<option value="RI">Rhode Island</option>
+						<option value="SC">South Carolina</option>
+						<option value="SD">South Dakota</option>
+						<option value="TN">Tennessee</option>
+						<option value="TX">Texas</option>
+						<option value="UT">Utah</option>
+						<option value="VT">Vermont</option>
+						<option value="VA">Virginia</option>
+						<option value="WA">Washington</option>
+						<option value="WV">West Virginia</option>
+						<option value="WI">Wisconsin</option>
+						<option value="WY">Wyoming</option>
+					</select>
 					<label htmlFor="country">Country:</label>
 					<input
 						type="text"
@@ -185,6 +297,7 @@ class UpdateUser extends React.Component {
 						name="admin"
 						onChange={this.handleOnChange}
 						style={displayStyle}
+						value={this.state.user.admin}
 					>
 						<option value="0">False</option>
 						<option value="1">True</option>
