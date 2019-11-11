@@ -1,48 +1,8 @@
 /* eslint-disable complexity */
 const router = require('express').Router()
 const { User, Order } = require('../db/models')
-const uuid = require('uuid/v4')
 
 module.exports = router
-
-// router.param('id', async (req, res, next, id) => {
-//   User.findByPk(id)
-//     .then((user) => {
-//       console.log(user)
-//       if (!user) console.error('No such user')
-//       req.requestedUser = user
-//       next()
-//       return null
-//     })
-//     .catch(next)
-// })
-
-// router.get('/', async (req, res, next) => {
-// 	try {
-// 		User.findByPk(req.session.userId).then(async user => {
-// 			if (!user || !user.admin) console.error('Insufficient Rights')
-// 			else {
-// 				try {
-// 					const users = await User.findAll({
-// 						attributes: [
-// 							'id',
-// 							'email',
-// 							'address',
-// 							'username',
-// 							'firstName',
-// 							'lastName'
-// 						]
-// 					})
-// 					res.json(users)
-// 				} catch (err) {
-// 					next(err)
-// 				}
-// 			}
-// 		})
-// 	} catch (error) {
-// 		next(error)
-// 	}
-// })
 
 router.get('/', async (req, res, next) => {
 	try {
