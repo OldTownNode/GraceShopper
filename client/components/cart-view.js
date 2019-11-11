@@ -1,5 +1,6 @@
 import React from 'react'
 import CartListItem from './cart-list-item'
+import { CheckoutForm } from './index.js'
 
 export default function CartView(props) {
 	const productIds = Object.keys(props.cart)
@@ -29,6 +30,7 @@ export default function CartView(props) {
 				}
 			})}
 			<h4>Total: ${totalPrice}</h4>
+			<CheckoutForm sum={totalPrice} />
 		</div>
 	)
 }

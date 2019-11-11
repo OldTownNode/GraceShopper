@@ -204,3 +204,19 @@ div > div.squareBorder {
 .warning {
 	background-color: orange;
 }
+/* stripe checkout */
+.card-stripe {
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	border-radius: 20px;
+	text-align: center;
+	background-color: rgb(0, 140, 221);
+	color: white;
+	margin: 20px;
+	width: 500px;
+	max-height: 800px;
+	padding: 5px;
+}

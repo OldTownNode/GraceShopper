@@ -20,7 +20,9 @@ const Navbar = ({ handleClick, isLoggedIn, user }) => (
 					<Link to="/products">Products</Link>
 					<Link to="/cart">Cart</Link>
 					<Link to={`/users/${user.id}`}>Profile</Link>
-					<i className="fas fa-shopping-cart" />
+					<Link to="/checkout-form">
+						<i className="fas fa-shopping-cart" />
+					</Link>
 				</div>
 			) : (
 				<div>
