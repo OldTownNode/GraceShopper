@@ -44,7 +44,7 @@ class Routes extends Component {
 					component={ConnectedProductsContainer}
 				/>
 				<Route path="/cart" component={CartContainer} />
-
+				<Route path="/users/0/update" component={UserUpdate} />
 				{isLoggedIn && (
 					<Switch>
 						{/* Routes placed here are only available after logging in */}

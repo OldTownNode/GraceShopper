@@ -53,7 +53,7 @@ class UpdateUser extends React.Component {
 		this.checkPw = checkPw.bind(this)
 	}
 	componentDidMount() {
-		if (this.props.match) {
+		if (this.props.match && this.props.match.params.id) {
 			this.props.findUser(this.props.match.params.id)
 			this.setState({ user: this.props.user.user })
 		}

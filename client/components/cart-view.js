@@ -1,13 +1,15 @@
 import React from 'react'
 import CartListItem from './cart-list-item'
 import { CheckoutForm } from './index.js'
-
-export default function CartView(props) {
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+function CartView(props) {
 	const productIds = Object.keys(props.cart)
 	const quantities = Object.values(props.cart)
 
 	let totalPrice = 0.0
-
+	let userparam = 0
+	if (props.userId) userparam = props.userId
 	return (
 		<div>
 			{productIds.map((id, index) => {
@@ -29,8 +31,7 @@ export default function CartView(props) {
 					)
 				}
 			})}
-			<Link to="{`/users/${uservalue.id}/update`}">
-				{' '}
+			<Link to={`/users/${userparam}/update`}>
 				<button>Checkout</button>
 			</Link>
 			<h4>Total: ${totalPrice}</h4>
@@ -38,3 +39,19 @@ export default function CartView(props) {
 		</div>
 	)
 }
+const mapState = state => {
+	return {
+		// Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+		// Otherwise, state.user will be an empty object, and state.user.id will be falsey
+		userId: state.user.loggedInUser.id
+	}
+}
+
+const mapDispatch = dispatch => {
+	return {
+		loadInitialData() {
+			dispatch(me())
+		}
+	}
+}
+export default connect(mapState, mapDispatch)(CartView)

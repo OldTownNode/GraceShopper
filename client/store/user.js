@@ -45,7 +45,9 @@ export const deleteUserThunk = (id, admin) => async dispatch => {
 export const updateUserThunk = user => async dispatch => {
 	let res
 	try {
-		res = await axios.put(`/api/users/${user.id}`, user)
+		let userId = 0
+		if (user.id) userId = user.id
+		res = await axios.put(`/api/users/${userId}`, user)
 	} catch (updateError) {
 		return dispatch(updateUser({ error: updateError }))
 	}

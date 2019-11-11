@@ -203,7 +203,10 @@ const User = db.define(
 				}
 			}
 		},
-
+		isGuest: {
+			type: Sequelize.BOOLEAN,
+			default: false
+		},
 		admin: {
 			type: Sequelize.BOOLEAN,
 			defaultValue: false
