@@ -17,3 +17,4 @@ export {
 export { default as ConnectedProductsContainer } from './products-container'
 export { default as CartContainer } from './cart-container'
 export { default as CheckoutForm } from './checkout-form'
+export { default as Checkout } from './Checkout'

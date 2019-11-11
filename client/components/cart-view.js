@@ -1,8 +1,8 @@
 import React from 'react'
 import CartListItem from './cart-list-item'
-import { CheckoutForm } from './index.js'
-import { connect } from 'react-redux'
+import CheckoutButton from './CheckoutButton'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 function CartView(props) {
 	const productIds = Object.keys(props.cart)
 	const quantities = Object.values(props.cart)
@@ -35,7 +35,9 @@ function CartView(props) {
 				<button>Checkout</button>
 			</Link>
 			<h4>Total: ${totalPrice}</h4>
-			<CheckoutForm sum={totalPrice} />
+			<Link to="/checkout">
+				<CheckoutButton totalPrice={totalPrice} />
+			</Link>
 		</div>
 	)
 }
