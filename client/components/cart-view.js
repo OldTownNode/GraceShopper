@@ -1,6 +1,7 @@
 import React from 'react'
 import CartListItem from './cart-list-item'
-import { CheckoutForm } from './index.js'
+import CheckoutButton from './CheckoutButton'
+import { Link } from 'react-router-dom'
 
 export default function CartView(props) {
 	const productIds = Object.keys(props.cart)
@@ -30,7 +31,9 @@ export default function CartView(props) {
 				}
 			})}
 			<h4>Total: ${totalPrice}</h4>
-			<CheckoutForm sum={totalPrice} />
+			<Link to="/checkout">
+				<CheckoutButton totalPrice={totalPrice} />
+			</Link>
 		</div>
 	)
 }
