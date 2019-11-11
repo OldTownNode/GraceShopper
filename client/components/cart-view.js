@@ -1,6 +1,6 @@
 import React from 'react'
 import CartListItem from './cart-list-item'
-import CheckoutButton from './CheckoutButton'
+
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 function CartView(props) {
@@ -35,8 +35,10 @@ function CartView(props) {
 				<button>Checkout</button>
 			</Link>
 			<h4>Total: ${totalPrice}</h4>
-			<Link to="/checkout">
-				<CheckoutButton totalPrice={totalPrice} />
+			<Link to={`/users/${userparam}/checkout`}>
+				<button type="button" className="checkout-button">
+					Checkout
+				</button>
 			</Link>
 		</div>
 	)

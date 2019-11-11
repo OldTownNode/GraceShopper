@@ -44,8 +44,11 @@ class Routes extends Component {
 					path="/products"
 					component={ConnectedProductsContainer}
 				/>
-				<Route path="/cart" component={CartContainer} />
+				<Route path="/users/0/cart" component={CartContainer} />
+				<Route path="/users/0/checkout" component={Checkout} />
 				<Route path="/users/0/update" component={UserUpdate} />
+				<Route path="/checkout-form" component={CheckoutForm} />
+
 				{isLoggedIn && (
 					<Switch>
 						{/* Routes placed here are only available after logging in */}
@@ -58,11 +61,17 @@ class Routes extends Component {
 							path="/users/:id/orders"
 							component={UserOrders}
 						/>
+						<Route
+							path="/users/:id/cart"
+							component={CartContainer}
+						/>
+						<Route
+							path="/users/:id/checkout"
+							component={Checkout}
+						/>
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />
 						<Route path="/orders" component={Orders} />
-						<Route path="/checkout-form" component={CheckoutForm} />
-						<Route path="/checkout" component={Checkout} />
 					</Switch>
 				)}
 				{/* Displays our Login component as a fallback */}
