@@ -118,7 +118,11 @@ export default function(state = initialState, action) {
 		case GET_USER:
 			return { ...state, loggedInUser: action.user }
 		case REMOVE_USER:
-			return { ...state, user: initialState.user }
+			return {
+				...state,
+				user: initialState.user,
+				loggedInUser: initialState.user
+			}
 		case FIND_SINGLE_USER:
 			return { ...state, user: action.user }
 		case ALL_USERS:

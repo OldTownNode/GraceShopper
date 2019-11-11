@@ -29,6 +29,10 @@ export default function CartView(props) {
 					)
 				}
 			})}
+			<Link to="{`/users/${uservalue.id}/update`}">
+				{' '}
+				<button>Checkout</button>
+			</Link>
 			<h4>Total: ${totalPrice}</h4>
 			<CheckoutForm sum={totalPrice} />
 		</div>
