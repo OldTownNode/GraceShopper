@@ -14,7 +14,11 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
-				}
+				},
+				isAlpha: {
+					args: true,
+					msg: 'Must not contain numbers'
+				} //HM Passport Office will not print numerals (0–9) on a passport — only alphabetical characters (A–Z), hypens and apostrophes.  If you have a number in your name and it appears on your original birth certificate, HM Passport Office will write out the number alphabetically, for example, as Super Eight or Four Real.  However names containing numbers on a deed poll will be refused.
 			}
 		},
 		lastName: {
@@ -26,6 +30,10 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
+				},
+				isAlpha: {
+					args: true,
+					msg: 'Must not contain numbers'
 				}
 			}
 		},
@@ -115,7 +123,7 @@ const User = db.define(
 			}
 		},
 		houseNumber: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING, //https://en.wikipedia.org/wiki/House_numbering
 			defaultValue: '',
 			validate: {
 				validAdd(value) {
@@ -141,7 +149,7 @@ const User = db.define(
 			}
 		},
 		zipcode: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING, //https://www.postalcodesincanada.com/
 			defaultValue: '',
 			validate: {
 				validAdd(value) {
@@ -176,6 +184,10 @@ const User = db.define(
 							'Address must not include illegal characters'
 						)
 					}
+				},
+				is: {
+					args: /^[a-z]*$/i,
+					msg: 'Must be valid country'
 				}
 			}
 		},
@@ -209,6 +221,11 @@ const User = db.define(
 	{
 		hooks: {
 			beforeCreate: user => {
+				user.address = `${user.houseNumber}, ${user.street}, ${
+					user.apt
+				}, ${user.zipcode}, ${user.state}, ${user.country}`
+			},
+			beforeUpdate: user => {
 				user.address = `${user.houseNumber}, ${user.street}, ${
 					user.apt
 				}, ${user.zipcode}, ${user.state}, ${user.country}`

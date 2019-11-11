@@ -13,10 +13,21 @@ class UserOrders extends Component {
 				{this.props.userOrders &&
 					this.props.userOrders.map(userOrder => {
 						return (
-							<div key={userOrder.id}>
-								<span>Order ID: {userOrder.id}</span>
+							<div
+								key={userOrder.id}
+								className="squareBorder card"
+							>
+								<span>
+									Order Status:{' '}
+									{userOrder.status === 'inCart'
+										? 'In Cart'
+										: `Shipped On ${userOrder.createdAt.substring(
+												0,
+												10
+										  )}`}
+								</span>
 								{'\t'}
-								<span>Order Status: {userOrder.status}</span>
+								<span>Order ID: {userOrder.id}</span>
 							</div>
 						)
 					})}

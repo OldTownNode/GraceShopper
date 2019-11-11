@@ -15,7 +15,8 @@ import {
 	UserOrders,
 	ConnectedSingleProductContainer,
 	ConnectedProductsContainer,
-	CartContainer
+	CartContainer,
+	CheckoutForm
 } from './components'
 
 /**
@@ -59,6 +60,7 @@ class Routes extends Component {
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />
 						<Route path="/orders" component={Orders} />
+						<Route path="/checkout-form" component={CheckoutForm} />
 					</Switch>
 				)}
 				{/* Displays our Login component as a fallback */}

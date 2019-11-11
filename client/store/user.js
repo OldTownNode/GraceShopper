@@ -43,9 +43,14 @@ export const deleteUserThunk = (id, admin) => async dispatch => {
 }
 
 export const updateUserThunk = user => async dispatch => {
+	let res
 	try {
-		const { data } = await axios.put(`/api/users/${user.id}`, user)
-		dispatch(updateUser(data))
+		res = await axios.put(`/api/users/${user.id}`, user)
+	} catch (updateError) {
+		return dispatch(updateUser({ error: updateError }))
+	}
+	try {
+		dispatch(updateUser(res.data))
 		history.push(`/users/${user.id}`)
 	} catch (error) {
 		console.error(error)

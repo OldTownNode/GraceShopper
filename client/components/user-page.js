@@ -61,6 +61,8 @@ class UserPage extends React.Component {
 				<div style={adminPanel} className="card-vertical">
 					<p>Admin Panel</p>
 					<Link to="/users">All Users</Link>
+					<br />
+					<Link to="/products">All Products</Link>
 				</div>
 			</div>
 		)
