@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
-import { CheckoutForm, UserPage } from './index.js'
+import { CheckoutForm, UserPage, UserUpdate } from './index.js'
 
 export default class Checkout extends Component {
 	render() {
 		return (
 			<div>
-				<UserPage />
+				<UserUpdate />
 				<p>Total: {this.props.totalPrice}</p>
-				<CheckoutForm sum={this.props.totalPrice} />
+				<div className="container">
+					<div className="card card-stripe">
+						<h2>Checkout</h2>
+						<div className="card">
+							<h3>Cart Total · ${this.props.totalPrice}</h3>
+						</div>
+						<button type="button">Checkout</button>
+					</div>
+
+					<CheckoutForm sum={this.props.totalPrice} />
+				</div>
 			</div>
 		)
 	}

@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const { User, Order } = require('../db/models')
+const uuid = require('uuid/v4')
+
 module.exports = router
 
 // router.param('id', async (req, res, next, id) => {
@@ -108,51 +110,74 @@ router.get('/:id/orders', async (req, res, next) => {
 })
 
 router.put('/:id', async (req, res, next) => {
-	try {
-		const user = await User.findByPk(req.session.userId)
-		if (user.id === parseInt(req.params.id) || user.admin) {
-			try {
-				await User.update(
-					{
-						email: req.body.email,
-						password: req.body.password,
-						username: req.body.username,
-						firstName: req.body.firstName,
-						lastName: req.body.lastName,
-						apt: req.body.apt,
-						street: req.body.street,
-						houseNumber: req.body.houseNumber,
-						zipcode: req.body.zipcode,
-						state: req.body.state,
-						country: req.body.country
-					},
-
-					{
-						where: { id: req.params.id },
-						individualHooks: true
-					}
-				)
-
-				if (user.admin && !(user.id === parseInt(req.params.id))) {
+	if (req.params.id !== '0') {
+		try {
+			const user = await User.findByPk(req.session.userId)
+			if (user.id === parseInt(req.params.id) || user.admin) {
+				try {
 					await User.update(
 						{
-							admin: req.body.admin
+							email: req.body.email,
+							password: req.body.password,
+							username: req.body.username,
+							firstName: req.body.firstName,
+							lastName: req.body.lastName,
+							apt: req.body.apt,
+							street: req.body.street,
+							houseNumber: req.body.houseNumber,
+							zipcode: req.body.zipcode,
+							state: req.body.state,
+							country: req.body.country
 						},
+
 						{
-							where: { id: req.params.id }
+							where: { id: req.params.id },
+							individualHooks: true
 						}
 					)
-				}
 
-				res.json(user)
-			} catch (err) {
-				res.status(401).send(err.message)
+					if (user.admin && !(user.id === parseInt(req.params.id))) {
+						await User.update(
+							{
+								admin: req.body.admin
+							},
+							{
+								where: { id: req.params.id }
+							}
+						)
+					}
+
+					res.json(user)
+				} catch (err) {
+					res.status(401).send(err.message)
+				}
+			} else {
+				res.status(401).send('Insufficient Rights')
 			}
-		} else {
-			res.status(401).send('Insufficient Rights')
+		} catch (error) {
+			next(error)
 		}
-	} catch (error) {
-		next(error)
+	} else {
+		try {
+			const user = await User.create({
+				email:
+					uuid().substring(0, req.body.email.length) + req.body.email,
+				password: 'Guest' + uuid().substring(0, 9) + '@',
+				//username: 'Guest'+Math.floor(Math.random()*10),
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+				apt: req.body.apt,
+				street: req.body.street,
+				houseNumber: req.body.houseNumber,
+				zipcode: req.body.zipcode,
+				state: req.body.state,
+				country: req.body.country,
+				isGuest: true
+			})
+			res.sendStatus(201)
+		} catch (error) {
+			res.status(401).send(error.message)
+		}
 	}
 })
 
