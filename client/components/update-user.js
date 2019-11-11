@@ -53,9 +53,12 @@ class UpdateUser extends React.Component {
 		this.checkPw = checkPw.bind(this)
 	}
 	componentDidMount() {
-		if (this.props.match) {
+		if (this.props.match && this.props.match.params.id) {
 			this.props.findUser(this.props.match.params.id)
 			this.setState({ user: this.props.user.user })
+		} else if (this.props.user.loggedInUser.id) {
+			this.props.findUser(this.props.user.loggedInUser.id)
+			this.setState({ user: this.props.user.loggedInUser })
 		}
 	}
 
@@ -154,11 +157,14 @@ class UpdateUser extends React.Component {
 			display: displaybutton
 		}
 		let delStyle = 'none'
-		if (
-			this.props.loggedIn.id === parseInt(this.props.match.params.id) ||
-			this.props.loggedIn.admin
-		)
-			delStyle = 'block'
+		if (this.props.match) {
+			if (
+				this.props.loggedIn.id ===
+					parseInt(this.props.match.params.id) ||
+				this.props.loggedIn.admin
+			)
+				delStyle = 'block'
+		}
 		const displayDel = {
 			display: delStyle
 		}

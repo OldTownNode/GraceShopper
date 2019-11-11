@@ -17,7 +17,9 @@ import {
 	ConnectedProductsContainer,
 	CartContainer,
 	CheckoutForm,
-	NotFoundPage
+	NotFoundPage,
+	Checkout,
+	WelcomePage
 } from './components'
 
 /**
@@ -34,6 +36,7 @@ class Routes extends Component {
 		return (
 			<Switch>
 				{/* Routes placed here are available to all visitors */}
+				<Route path="/" component={WelcomePage} />
 				<Route path="/login" component={Login} />
 				<Route path="/signup" component={Signup} />
 				<Route
@@ -44,7 +47,10 @@ class Routes extends Component {
 					path="/products"
 					component={ConnectedProductsContainer}
 				/>
-				<Route path="/cart" component={CartContainer} />
+				<Route path="/users/0/cart" component={CartContainer} />
+				<Route path="/users/0/checkout" component={Checkout} />
+				<Route path="/users/0/update" component={UserUpdate} />
+				<Route path="/checkout-form" component={CheckoutForm} />
 
 				{isLoggedIn && (
 					<Switch>
@@ -58,11 +64,18 @@ class Routes extends Component {
 							path="/users/:id/orders"
 							component={UserOrders}
 						/>
+						<Route
+							path="/users/:id/cart"
+							component={CartContainer}
+						/>
+						<Route
+							path="/users/:id/checkout"
+							component={Checkout}
+						/>
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />
 						<Route path="/orders" component={Orders} />
 						<Route path="/checkout-form" component={CheckoutForm} />
-						<Route path="*" component={NotFoundPage} />
 					</Switch>
 				)}
 				{/* Displays our NotFoundPage component as a fallback */}
