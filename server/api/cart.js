@@ -21,7 +21,6 @@ router.get('/', async (req, res, next) => {
 		}
 	} else {
 		res.json(req.session.cart)
-		//TODO handle guest case
 	}
 })
 
@@ -57,8 +56,8 @@ router.get('/order', async (req, res, next) => {
 //This route will handle all 'additions' to the cart, even if it is just incrementing a product that is already there.  There are two cases to handle:  When the user is logged in and when the user is a guest. This will be handled by checking if req.user is undefined.
 //req.body is a product
 router.put('/increment', async (req, res, next) => {
-	if (req.user) {
-		try {
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOrCreate({
 				where: {
 					userId: req.user.id,
@@ -68,24 +67,27 @@ router.put('/increment', async (req, res, next) => {
 			res.json(
 				await cartOrder[0].incrementProduct(req.body.id, req.body.price)
 			)
-		} catch (error) {
-			next(error)
-		}
-	} else {
-		console.log('req.session.cart: ', req.session.cart)
-		if (Object.keys(req.session.cart).includes(req.body.id.toString())) {
-			req.session.cart[req.body.id] = req.session.cart[req.body.id] + 1
 		} else {
-			req.session.cart[req.body.id] = 1
+			console.log('req.session.cart: ', req.session.cart)
+			if (
+				Object.keys(req.session.cart).includes(req.body.id.toString())
+			) {
+				req.session.cart[req.body.id] =
+					req.session.cart[req.body.id] + 1
+			} else {
+				req.session.cart[req.body.id] = 1
+			}
+			console.log('req.session: ', req.session)
+			res.json(req.session)
 		}
-		console.log('req.session: ', req.session)
-		res.json(req.session)
+	} catch (error) {
+		next(error)
 	}
 })
 
 router.put('/decrement', async (req, res, next) => {
-	if (req.user) {
-		try {
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOrCreate({
 				where: {
 					userId: req.user.id,
@@ -95,23 +97,26 @@ router.put('/decrement', async (req, res, next) => {
 			res.json(
 				await cartOrder[0].decrementProduct(req.body.id, req.body.price)
 			)
-		} catch (error) {
-			next(error)
-		}
-	} else {
-		if (Object.keys(req.session.cart).includes(req.body.id.toString())) {
-			req.session.cart[req.body.id] = req.session.cart[req.body.id] + 1
 		} else {
-			req.session.cart[req.body.id] = 1
+			if (
+				Object.keys(req.session.cart).includes(req.body.id.toString())
+			) {
+				req.session.cart[req.body.id] =
+					req.session.cart[req.body.id] + 1
+			} else {
+				req.session.cart[req.body.id] = 1
+			}
+			console.log('req.session: ', req.session)
+			res.json(req.session)
 		}
-		console.log('req.session: ', req.session)
-		res.json(req.session)
+	} catch (error) {
+		next(error)
 	}
 })
 
 router.delete('/:productId', async (req, res, next) => {
-	if (req.user) {
-		try {
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOne({
 				where: {
 					userId: req.user.id,
@@ -123,24 +128,24 @@ router.delete('/:productId', async (req, res, next) => {
 			} else {
 				res.json(undefined)
 			}
-		} catch (error) {
-			next(error)
+		} else {
+			//TODO handle Session version
+			if (Object.keys(req.session.cart).includes(req.params.productId)) {
+				let newCart = { ...req.session.cart }
+				delete newCart[req.body.id]
+				req.session.cart = newCart
+			}
+			console.log('req.session: ', req.session)
+			res.json(req.session)
 		}
-	} else {
-		//TODO handle Session version
-		if (Object.keys(req.session.cart).includes(req.params.productId)) {
-			let newCart = { ...req.session.cart }
-			delete newCart[req.body.id]
-			req.session.cart = newCart
-		}
-		console.log('req.session: ', req.session)
-		res.json(req.session)
+	} catch (error) {
+		next(error)
 	}
 })
 
 router.put('/checkout', async (req, res, next) => {
-	if (req.user) {
-		try {
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOne({
 				where: {
 					userId: req.user.id,
@@ -150,11 +155,11 @@ router.put('/checkout', async (req, res, next) => {
 			cartOrder.status = 'complete'
 			await cartOrder.save()
 			res.send(cartOrder)
-		} catch (error) {
-			next(error)
+		} else {
+			res.send('not logged in not set up yet')
 		}
-	} else {
-		res.send('not logged in not set up yet')
+	} catch (error) {
+		next(error)
 	}
 })
 

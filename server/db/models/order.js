@@ -42,11 +42,14 @@ Order.prototype.decrementProduct = async function(productId, price) {
 		})
 		if (orderProduct && orderProduct.quantity) {
 			let newQuantity = orderProduct.quantity - 1
-			const updatedOrderProduct = await orderProduct.update({
-				quantity: newQuantity,
-				price: price
-			})
-			return updatedOrderProduct
+			if (newQuantity) {
+				orderProduct.quantity = newQuantity
+				orderProduct.price = price
+				await orderProduct.save()
+			} else {
+				await orderProduct.destroy()
+			}
+			return orderProduct
 		}
 	} catch (error) {
 		console.error(error)

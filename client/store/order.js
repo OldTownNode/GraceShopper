@@ -17,13 +17,21 @@ const gotUserOrders = userOrders => ({ type: GOT_USER_ORDERS, userOrders })
  * THUNK CREATORS
  */
 export const getAllOrders = () => async dispatch => {
-	const { data } = await Axios.get('/api/orders')
-	dispatch(gotAllOrders(data))
+	try {
+		const { data } = await Axios.get('/api/orders')
+		dispatch(gotAllOrders(data))
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 export const getUserOrders = id => async dispatch => {
-	const { data } = await Axios.get(`/api/users/${id}/orders`)
-	dispatch(gotUserOrders(data))
+	try {
+		const { data } = await Axios.get(`/api/users/${id}/orders`)
+		dispatch(gotUserOrders(data))
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 /**
