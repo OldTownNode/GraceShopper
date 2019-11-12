@@ -15,7 +15,9 @@ import {
 	UserOrders,
 	ConnectedSingleProductContainer,
 	ConnectedProductsContainer,
-	CartContainer
+	CartContainer,
+	CheckoutForm,
+	Checkout
 } from './components'
 
 /**
@@ -42,7 +44,10 @@ class Routes extends Component {
 					path="/products"
 					component={ConnectedProductsContainer}
 				/>
-				<Route path="/cart" component={CartContainer} />
+				<Route path="/users/0/cart" component={CartContainer} />
+				<Route path="/users/0/checkout" component={Checkout} />
+				<Route path="/users/0/update" component={UserUpdate} />
+				<Route path="/checkout-form" component={CheckoutForm} />
 
 				{isLoggedIn && (
 					<Switch>
@@ -55,6 +60,14 @@ class Routes extends Component {
 						<Route
 							path="/users/:id/orders"
 							component={UserOrders}
+						/>
+						<Route
+							path="/users/:id/cart"
+							component={CartContainer}
+						/>
+						<Route
+							path="/users/:id/checkout"
+							component={Checkout}
 						/>
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />

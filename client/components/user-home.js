@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
  */
 export const UserHome = props => {
 	const { email } = props
-	console.log('props', props.session)
 	return (
 		<div>
 			<h3>Welcome, {email}</h3>

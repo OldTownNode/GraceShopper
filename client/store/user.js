@@ -33,6 +33,7 @@ const updateUser = user => ({ type: UPDATE_USER, user })
 //custom thunks start
 export const deleteUserThunk = (id, admin) => async dispatch => {
 	try {
+		console.log('admin', admin)
 		await axios.delete(`/api/users/${id}`)
 		dispatch(removeUser())
 		if (!admin.admin) history.push('/login')
@@ -43,9 +44,16 @@ export const deleteUserThunk = (id, admin) => async dispatch => {
 }
 
 export const updateUserThunk = user => async dispatch => {
+	let res
 	try {
-		const { data } = await axios.put(`/api/users/${user.id}`, user)
-		dispatch(updateUser(data))
+		let userId = 0
+		if (user.id) userId = user.id
+		res = await axios.put(`/api/users/${userId}`, user)
+	} catch (updateError) {
+		return dispatch(updateUser({ error: updateError }))
+	}
+	try {
+		dispatch(updateUser(res.data))
 		history.push(`/users/${user.id}`)
 	} catch (error) {
 		console.error(error)
@@ -113,7 +121,11 @@ export default function(state = initialState, action) {
 		case GET_USER:
 			return { ...state, loggedInUser: action.user }
 		case REMOVE_USER:
-			return { ...state, user: initialState.user }
+			return {
+				...state,
+				user: initialState.user,
+				loggedInUser: initialState.user
+			}
 		case FIND_SINGLE_USER:
 			return { ...state, user: action.user }
 		case ALL_USERS:

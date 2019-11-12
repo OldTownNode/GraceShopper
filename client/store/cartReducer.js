@@ -4,6 +4,7 @@ const GET_CART = 'GET_CART'
 const INCREMENT_PRODUCT = 'INCREMENT_PRODUCT'
 const DECREMENT_PRODUCT = 'DECREMENT_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_ITEM'
+const COMPLETE_ORDER = 'COMPLETE_ORDER'
 
 const incrementProductActionCreator = product => ({
 	type: INCREMENT_PRODUCT,
@@ -25,12 +26,15 @@ const getCartActionCreator = cart => ({
 	cart
 })
 
+const completeOrder = () => ({ type: COMPLETE_ORDER })
+
 export const incrementProductThunkCreator = product => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.put('/api/cart/increment', product)
-			//TODO check here if post was successful
-			dispatch(incrementProductActionCreator(product))
+			if (data) {
+				dispatch(incrementProductActionCreator(product))
+			}
 		} catch (error) {
 			console.error(error)
 		}
@@ -53,9 +57,9 @@ export const decrementItemThunkCreator = product => {
 export const deleteItemThunkCreator = product => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.delete('/api/cart', product)
-			if (data > 0) {
-				dispatch(decrementProductActionCreator(product))
+			const { data } = await axios.delete(`/api/cart/${product.id}`)
+			if (data) {
+				dispatch(deleteProductActionCreator(product))
 			}
 		} catch (error) {
 			console.error(error)
@@ -70,6 +74,17 @@ export const getCartThunkCreator = () => {
 			if (data) {
 				dispatch(getCartActionCreator(data))
 			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+}
+
+export const completeOrderThunk = () => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.put('/api/cart/checkout')
+			dispatch(completeOrder())
 		} catch (error) {
 			console.error(error)
 		}
@@ -104,13 +119,14 @@ const cartReducer = (cart = {}, action) => {
 			}
 			return newCart
 		case DELETE_PRODUCT:
-			if (Object.keys(cart).includes(product.id)) {
+			if (Object.keys(cart).includes(product.id.toString())) {
 				delete newCart[product.id]
 			}
 			return newCart
 		case GET_CART:
-			console.log('in get cart reducer path. new cart:', action.cart)
 			return action.cart
+		case COMPLETE_ORDER:
+			return {}
 		default:
 			return cart
 	}

@@ -1,5 +1,10 @@
 import React from 'react'
-import { getCartThunkCreator } from '../store/cartReducer'
+import {
+	getCartThunkCreator,
+	incrementProductThunkCreator,
+	decrementItemThunkCreator,
+	deleteItemThunkCreator
+} from '../store/cartReducer'
 import { fetchProducts } from '../store/product'
 import { connect } from 'react-redux'
 import CartView from './cart-view'
@@ -14,7 +19,15 @@ class DisconnectedCartContainer extends React.Component {
 
 	render() {
 		return (
-			<CartView cart={this.props.cart} products={this.props.products} />
+			<div className="container">
+				<CartView
+					cart={this.props.cart}
+					products={this.props.products}
+					increment={this.props.increment}
+					decrement={this.props.decrement}
+					delete={this.props.delete}
+				/>
+			</div>
 		)
 	}
 }
@@ -28,7 +41,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	getCart: () => dispatch(getCartThunkCreator()),
-	fetchProducts: () => dispatch(fetchProducts())
+	fetchProducts: () => dispatch(fetchProducts()),
+	increment: product => dispatch(incrementProductThunkCreator(product)),
+	decrement: product => dispatch(decrementItemThunkCreator(product)),
+	delete: product => dispatch(deleteItemThunkCreator(product))
 })
 
 const CartContainer = connect(mapStateToProps, mapDispatchToProps)(
