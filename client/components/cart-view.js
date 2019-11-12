@@ -68,7 +68,7 @@ class CartView extends React.Component {
 						}
 					})}
 				</div>
-				<h2>Total: ${totalPrice}</h2>
+				<h2>Total: ${(totalPrice / 100).toFixed(2)}</h2>
 				{this.state.formCompleted || this.props.userId ? (
 					<div className="container">
 						<div className="card">
@@ -81,7 +81,7 @@ class CartView extends React.Component {
 								Checkout
 							</button>
 						</div>
-						<CheckoutForm sum={(totalPrice / 100).toFixed(2)} />
+						<CheckoutForm sum={totalPrice} />
 					</div>
 				) : (
 					<div className="container">
