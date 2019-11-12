@@ -30,7 +30,6 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.user.id)
-		console.log('user', user)
 		if (user.id === parseInt(req.params.id) || user.admin) {
 			const users = await User.findAll({
 				where: {
@@ -63,7 +62,10 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/:id/orders', async (req, res, next) => {
 	try {
-		if (req.user && req.user.admin) {
+		if (
+			(req.user && req.user.id === parseInt(req.params.id)) ||
+			req.user.admin
+		) {
 			const userOrders = await Order.findAll({
 				where: {
 					userId: req.params.id
