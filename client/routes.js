@@ -79,6 +79,7 @@ class Routes extends Component {
 							path="/ordercomplete"
 							component={OrderComplete}
 						/>
+						<Route path="*" component={NotFoundPage} />
 					</Switch>
 				)}
 				{/* Displays our NotFoundPage component as a fallback */}

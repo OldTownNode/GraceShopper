@@ -65,8 +65,7 @@ const mapState = state => {
 	console.log('state', state)
 	return {
 		cart: state.cart,
-		isLoggedIn: !!state.user.loggedInUser.id,
-		// isLoggedIn: !!state.user.loggedInUser.id || !!state.user.user,
+		isLoggedIn: !!state.user.loggedInUser.id || !!state.user.user.admin,
 		user: state.user.loggedInUser
 	}
 }

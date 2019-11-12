@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, Product } = require('../db/models')
+const { Order, Product, OrderProduct } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
 	try {
@@ -12,13 +12,15 @@ router.get('/', async (req, res, next) => {
 				include: [{ model: Product, as: 'products' }]
 			})
 			let returnObject = {}
-			cartOrder.products.map(product => {
-				returnObject[product.id] = product.orderproduct.quantity
-			})
+			if (cartOrder) {
+				cartOrder.products.map(product => {
+					returnObject[product.id] = product.orderproduct.quantity
+				})
+			}
+
 			res.json(returnObject)
 		} else {
 			res.json(req.session.cart)
-			//TODO handle guest case
 		}
 	} catch (error) {
 		next(error)
@@ -35,22 +37,23 @@ router.get('/order', async (req, res, next) => {
 				},
 				include: [{ model: Product, as: 'products' }]
 			})
+
 			res.json(cartOrder)
 		} else {
 			//here is where we handle the non-logged in cart. It should return a similar object to the logged in route!
 			let returnObject = {
 				products: []
 			}
-			Object.keys(req.session.cart).forEach(async element => {
-				let productObject = await Product.findByPk(element)
+			let products = await Product.findAll()
+			returnObject.products = Object.keys(req.session.cart).map(id => {
+				let productObject = products.filter(product => {
+					return id === product.id.toString()
+				})[0]
 				let newProduct = { ...productObject.dataValues }
-				console.log('newProduct: ', newProduct)
 				newProduct.orderproduct = { quantity: 0 }
-				newProduct.orderproduct.quantity = req.session.cart[element]
-				returnObject.products.push(newProduct)
-				console.log('returnObject', returnObject)
+				newProduct.orderproduct.quantity = req.session.cart[id]
+				return newProduct
 			})
-			console.log('leaving route! returnObject', returnObject)
 			res.json(returnObject)
 		}
 	} catch (error) {
@@ -61,6 +64,7 @@ router.get('/order', async (req, res, next) => {
 //This route will handle all 'additions' to the cart, even if it is just incrementing a product that is already there.  There are two cases to handle:  When the user is logged in and when the user is a guest. This will be handled by checking if req.user is undefined.
 //req.body is a product
 router.put('/increment', async (req, res, next) => {
+	console.log('req.user', req.user)
 	try {
 		if (req.user) {
 			let cartOrder = await Order.findOrCreate({
@@ -154,6 +158,20 @@ router.put('/checkout', async (req, res, next) => {
 			})
 			cartOrder.status = 'complete'
 			await cartOrder.save()
+
+			let products = await OrderProduct.findAll({
+				where: {
+					orderId: cartOrder.id
+				}
+			})
+
+			products.forEach(async orderproduct => {
+				let product = await Product.findByPk(orderproduct.productId)
+
+				product.inventory = product.inventory - orderproduct.quantity
+				await product.save()
+			})
+
 			res.send(cartOrder)
 		} else {
 			res.send('not logged in not set up yet')
