@@ -94,10 +94,15 @@ export const me = () => async dispatch => {
 	}
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, method, cart) => async dispatch => {
 	let res
+
 	try {
 		res = await axios.post(`/auth/${method}`, { email, password })
+		Object.keys(cart).forEach(async function(product) {
+			let { data } = await axios.get(`/api/products/${parseInt(product)}`)
+			await axios.put(`/api/cart/increment`, data)
+		})
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
 	}

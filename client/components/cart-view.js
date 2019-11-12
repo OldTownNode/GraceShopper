@@ -67,7 +67,7 @@ class CartView extends React.Component {
 					})}
 				</div>
 				<h2>Total: ${totalPrice}</h2>
-				{this.state.formCompleted ? (
+				{this.state.formCompleted || this.props.userId ? (
 					<div className="container">
 						<div className="card">
 							<h4>Total: ${totalPrice}</h4>
