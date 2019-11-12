@@ -3,8 +3,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const uuid = require('uuid/v4')
 
 router.post('/', async (req, res) => {
-	console.log('Request:', req.body)
-
 	let error
 	let status
 	try {
@@ -18,7 +16,7 @@ router.post('/', async (req, res) => {
 		const idempotency_key = uuid()
 		const charge = await stripe.charges.create(
 			{
-				amount: price * 100,
+				amount: price * 10000,
 				currency: 'usd',
 				customer: customer.id,
 				receipt_email: token.email,
@@ -37,7 +35,7 @@ router.post('/', async (req, res) => {
 				idempotency_key
 			}
 		)
-		console.log('Charge:', { charge })
+
 		status = 'success'
 	} catch (error) {
 		console.error('Error:', error)

@@ -4,9 +4,18 @@ const { User, Order } = require('../db/models')
 
 module.exports = router
 
+const verifyAdminOrUser = async function(req, res, next) {
+	try {
+		req.user = await User.findByPk(req.user.id)
+		next()
+	} catch (error) {
+		next(error)
+	}
+}
+router.use(verifyAdminOrUser)
 router.get('/', async (req, res, next) => {
 	try {
-		const user = await User.findByPk(req.user.id)
+		const user = req.user
 
 		if (!user || !user.admin) console.error('Insufficient Rights')
 		else {
@@ -29,7 +38,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
 	try {
-		const user = await User.findByPk(req.user.id)
+		const user = req.user
 		if (user.id === parseInt(req.params.id) || user.admin) {
 			const users = await User.findAll({
 				where: {
@@ -83,7 +92,7 @@ router.get('/:id/orders', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
 	try {
 		if (req.params.id !== '0') {
-			const user = await User.findByPk(req.user.id)
+			const user = req.user
 			if (user.id === parseInt(req.params.id) || user.admin) {
 				await User.update(
 					{
@@ -143,7 +152,7 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
 	try {
-		const user = await User.findByPk(req.user.id)
+		const user = req.user
 		if (user.id === parseInt(req.params.id) || user.admin) {
 			const destroyed = await User.destroy({
 				where: { id: parseInt(req.params.id) }
