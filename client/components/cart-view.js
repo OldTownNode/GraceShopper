@@ -19,9 +19,10 @@ class CartView extends React.Component {
 		const productIds = Object.keys(this.props.cart)
 		const quantities = Object.values(this.props.cart)
 
-		let totalPrice = 0.0
+		let totalPrice = 0
 		let userparam = 0
 		if (this.props.userId) userparam = this.props.userId
+		console.log('type of total price: ', typeof totalPrice)
 		return (
 			<div>
 				{productIds.map((id, index) => {
@@ -44,7 +45,7 @@ class CartView extends React.Component {
 					}
 				})}
 
-				<h4>Total: ${totalPrice}</h4>
+				<h4>Total: ${(totalPrice / 100).toFixed(2)}</h4>
 				<div className="container">
 					<div className="card">
 						<form onSubmit={() => this.handleSubmit(event)}>
@@ -53,7 +54,7 @@ class CartView extends React.Component {
 							</button>
 						</form>
 					</div>
-					<CheckoutForm sum={this.props.totalPrice} />
+					<CheckoutForm sum={totalPrice} />
 				</div>
 			</div>
 		)

@@ -17,7 +17,7 @@ export default function CartListItem(props) {
 					<img className="img" src={imageUrl} />
 				</a>
 				<h2 className="priceinvcont">
-					<div>{`price: ${price}`}</div>
+					<div>{`price: $${(price / 100).toFixed(2)}`}</div>
 					<div>{`quantity: ${props.quantity}`}</div>
 					<div>
 						<AddButton

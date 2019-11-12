@@ -50,7 +50,6 @@ router.get('/order', async (req, res, next) => {
 				newProduct.orderproduct.quantity = req.session.cart[id]
 				return newProduct
 			})
-			console.log('leaving route! returnObject', returnObject)
 			res.json(returnObject)
 		}
 	} catch (error) {

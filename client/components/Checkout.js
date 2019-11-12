@@ -6,12 +6,16 @@ export default class Checkout extends Component {
 		return (
 			<div>
 				<UserUpdate />
-				<p>Total: {this.props.totalPrice}</p>
+				<p>Total: {(this.props.totalPrice / 100).toFixed(2)}</p>
 				<div className="container">
 					<div className="card card-stripe">
 						<h2>Checkout</h2>
 						<div className="card">
-							<h3>Cart Total · ${this.props.totalPrice}</h3>
+							<h3>
+								Cart Total · ${(
+									this.props.totalPrice / 100
+								).toFixed(2)}
+							</h3>
 						</div>
 						<button type="button">Checkout</button>
 					</div>

@@ -14,7 +14,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/S/F/SFRNGE-1130.62-3_1.jpg',
 		inventory: 10,
-		price: 350.0,
+		price: 35000,
 		category: 'apparel'
 	},
 	{
@@ -24,7 +24,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/S/B/SBAUSTB5534.12-2_7.jpg',
 		inventory: 10,
-		price: 145.0,
+		price: 14500,
 		category: 'apparel'
 	},
 	{
@@ -34,7 +34,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/S/F/SFEPTN-7540.7-3_1.jpg',
 		inventory: 10,
-		price: 515.0,
+		price: 51500,
 		category: 'apparel'
 	},
 	{
@@ -44,7 +44,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/540x708/9df78eab33525d08d6e5fb8d27136e95/O/S/OSSMIL4034.8T-2.jpg',
 		inventory: 10,
-		price: 57.0,
+		price: 5700,
 		category: 'apparel'
 	},
 	{
@@ -54,7 +54,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/1/2/12-020-8911-1657.BR-1.jpg',
 		inventory: 10,
-		price: 270.0,
+		price: 27000,
 		category: 'apparel'
 	},
 	{
@@ -64,7 +64,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/1/2/12-020-7608-0770.BR-2_1.jpg',
 		inventory: 10,
-		price: 215.0,
+		price: 21500,
 		category: 'apparel'
 	},
 	{
@@ -74,7 +74,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/1/2/12-021-7602-0968.BR-2.jpg',
 		inventory: 10,
-		price: 425.0,
+		price: 42500,
 		category: 'apparel'
 	},
 	{
@@ -84,7 +84,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/1/2/12-021-6105-1012.GR-3.jpg',
 		inventory: 10,
-		price: 57.0,
+		price: 5700,
 		category: 'apparel'
 	},
 	{
@@ -94,7 +94,7 @@ const products = [
 		imageUrl:
 			'https://www.stetson.com/store/media/catalog/product/cache/1/image/1080x1416/9df78eab33525d08d6e5fb8d27136e95/1/2/12-020-6104-0835.BL-1.jpg',
 		inventory: 10,
-		price: 57.0,
+		price: 5700,
 		category: 'apparel'
 	},
 	{
@@ -104,7 +104,7 @@ const products = [
 		imageUrl:
 			'https://www.sheplers.com/dw/image/v2/BBCT_PRD/on/demandware.static/-/Sites-master-product-catalog-shp/default/dw3cfd14c7/images/620/082620_25_P1.JPG?sw=980&sh=980&sm=fit',
 		inventory: 10,
-		price: 237.0,
+		price: 23700,
 		category: 'apparel'
 	},
 	{
@@ -114,7 +114,7 @@ const products = [
 		imageUrl:
 			'https://www.sheplers.com/dw/image/v2/BBCT_PRD/on/demandware.static/-/Sites-master-product-catalog-shp/default/dw90b6203e/images/903/082903_23_P1.JPG?sw=980&sh=980&sm=fit',
 		inventory: 10,
-		price: 404.0,
+		price: 40400,
 		category: 'apparel'
 	},
 	{
@@ -124,7 +124,7 @@ const products = [
 		imageUrl:
 			'https://cdn.shopify.com/s/files/1/1788/4029/products/img915_45bdbe46-3026-4d2d-bb7d-f6bc54be0a86_compact.jpg?v=1572940506',
 		inventory: 10,
-		price: 59.99,
+		price: 5999,
 		category: 'entertainment'
 	},
 	{
@@ -133,7 +133,7 @@ const products = [
 			'Order Imperium is the first deck of the Order Series.This deck represents the MAGNIFICENCE of our People and the glory of our Unique Party. Order Imperium is printed with superb metallic inks and beautiful artwork authorized by the Ministry of Information.',
 		imageUrl: 'https://i.ebayimg.com/images/g/6M0AAOSwxW9dr2qn/s-l640.jpg',
 		inventory: 10,
-		price: 15.99,
+		price: 1599,
 		category: 'entertainment'
 	},
 	{
@@ -143,7 +143,7 @@ const products = [
 		imageUrl:
 			'https://cdn.shopify.com/s/files/1/0956/5418/products/62741-full_273a39ff-fafc-451b-a967-e44d8744e550_1024x1024.png?v=1553571801',
 		inventory: 10,
-		price: 11.99,
+		price: 1199,
 		category: 'entertainment'
 	},
 	{
@@ -153,7 +153,7 @@ const products = [
 		imageUrl:
 			'https://www.saddleonline.com/23871-medium_default/antique-western-pleasure-trail-horse-saddle-tack-18.jpg',
 		inventory: 10,
-		price: 57.0,
+		price: 5700,
 		category: 'equipment'
 	},
 
@@ -164,7 +164,7 @@ const products = [
 		imageUrl:
 			'https://www.saddleonline.com/24083-medium_default/synthetic-brown-silver-trail-show-horse-saddle-tack-17.jpg',
 		inventory: 10,
-		price: 57.0,
+		price: 5700,
 		category: 'equipment'
 	},
 
@@ -175,7 +175,7 @@ const products = [
 		imageUrl:
 			'https://www.saddleonline.com/19429-medium_default/round-skirt-western-pleasure-trail-horse-saddle-tack-15-18.jpg',
 		inventory: 10,
-		price: 349.99,
+		price: 34999,
 		category: 'equipment'
 	},
 
@@ -186,7 +186,7 @@ const products = [
 		imageUrl:
 			'https://cdn.equine.com/images/scaled/810x456:0/89c5ec10-fbdb-11e9-bb0a-c1cad3cd572c/1105dcf0-fbda-11e9-89ce-b7989d431c78__img__20191023__wa0000.jpg',
 		inventory: 1,
-		price: 4000.0,
+		price: 400000,
 		category: 'horses'
 	},
 
@@ -197,68 +197,68 @@ const products = [
 		imageUrl:
 			'https://cdn.equine.com/images/scaled/810x456:0/6861a340-f77e-11e9-b355-85732dbf52f7/3a2dc990-f77e-11e9-bd35-511741ea3fee__1iota__hear__good__news__trail__1__main__small.jpg',
 		inventory: 1,
-		price: 9000,
+		price: 900000,
 		category: 'horses'
 	}
 ]
 const OrderProducts = [
 	{
 		quantity: 1,
-		price: 145.0,
+		price: 14500,
 		productId: '1',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 350.0,
+		price: 35000,
 		productId: '2',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 515.0,
+		price: 51500,
 		productId: '3',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 237.0,
+		price: 23700,
 		productId: '10',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 57.0,
+		price: 5700,
 		productId: '8',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 4000.0,
+		price: 400000,
 		productId: '18',
 		orderId: '1'
 	},
 	{
 		quantity: 1,
-		price: 215.0,
+		price: 21500,
 		productId: '6',
 		orderId: '2'
 	},
 	{
 		quantity: 1,
-		price: 15.99,
+		price: 1599,
 		productId: '12',
 		orderId: '2'
 	},
 	{
 		quantity: 1,
-		price: 57.0,
+		price: 5700,
 		productId: '15',
 		orderId: '2'
 	},
 	{
 		quantity: 1,
-		price: 9000,
+		price: 900000,
 		productId: '19',
 		orderId: '3'
 	}
