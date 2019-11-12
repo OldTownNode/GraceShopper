@@ -109,7 +109,7 @@ export const auth = (email, password, method, cart) => async dispatch => {
 
 	try {
 		dispatch(getUser(res.data))
-		history.push('/home')
+		history.push('/')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}
