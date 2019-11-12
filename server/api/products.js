@@ -49,9 +49,14 @@ router.put('/:id', async (req, res, next) => {
 				productObj.inventory = +product.inventory
 			}
 			if (req.body.price !== '') {
-				productObj.price = +req.body.price
+				console.log('req.body.price: ', req.body.price)
+				console.log(
+					'req.body.price * 100: ',
+					parseFloat(req.body.price) * 100
+				)
+				productObj.price = parseInt(parseFloat(req.body.price) * 100)
 			} else {
-				productObj.price = parseFloat(product.price)
+				productObj.price = +product.price
 			}
 			if (req.body.category !== '') {
 				productObj.category = req.body.category
