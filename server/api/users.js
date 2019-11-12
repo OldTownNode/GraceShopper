@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.user.id)
-		console.log('user', user)
+
 		if (user.id === parseInt(req.params.id) || user.admin) {
 			const users = await User.findAll({
 				where: {
