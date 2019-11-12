@@ -42,39 +42,31 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
-// router.get('/:id', async (req, res, next) => {
-// 	const user = await User.findByPk(req.session.userId)
-// 	if (user && user.admin) {
-// 		try {
-// 			const orders = await Order.findByPk(req.params.id)
-// 			res.json(orders)
-// 		} catch (err) {
-// 			next(err)
-// 		}
-// 	} else if (user) {
-// 		try {
-// 			const orders = await Order.findAll({
-// 				where: {
-// 					id: req.params.id,
-// 					userId: req.session.userId
-// 				},
-// 				include: [{ model: Product, as: 'products' }]
-// 			})
-// 			if (Object.keys(orders).length > 0) {
-// 				res.json(orders)
-// 			} else {
-// 				res.sendStatus(404)
-// 			}
-// 		} catch (error) {
-// 			next(error)
-// 		}
-// 	} else {
-// 		res.sendStatus(401)
-// 	}
-// })
-
-// router.post()
-
-// router.put()
+router.get('/:id', async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.session.userId)
+		if (user && user.admin) {
+			const orders = await Order.findByPk(req.params.id)
+			res.json(orders)
+		} else if (user) {
+			const orders = await Order.findAll({
+				where: {
+					id: req.params.id,
+					userId: req.session.userId
+				},
+				include: [{ model: Product, as: 'products' }]
+			})
+			if (Object.keys(orders).length > 0) {
+				res.json(orders)
+			} else {
+				res.sendStatus(404)
+			}
+		} else {
+			res.sendStatus(401)
+		}
+	} catch (error) {
+		next(error)
+	}
+})
 
 module.exports = router

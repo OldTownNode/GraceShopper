@@ -17,7 +17,9 @@ import {
 	ConnectedProductsContainer,
 	CartContainer,
 	CheckoutForm,
+	NotFoundPage,
 	Checkout,
+	WelcomePage,
 	OrderComplete
 } from './components'
 
@@ -35,6 +37,7 @@ class Routes extends Component {
 		return (
 			<Switch>
 				{/* Routes placed here are available to all visitors */}
+				<Route exact path="/" component={WelcomePage} />
 				<Route path="/login" component={Login} />
 				<Route path="/signup" component={Signup} />
 				<Route
@@ -79,7 +82,8 @@ class Routes extends Component {
 						/>
 					</Switch>
 				)}
-				{/* Displays our Login component as a fallback */}
+				{/* Displays our NotFoundPage component as a fallback */}
+				<Route path="*" component={NotFoundPage} />
 				<Route component={Login} />
 			</Switch>
 		)

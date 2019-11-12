@@ -17,6 +17,8 @@ export {
 export { default as ConnectedProductsContainer } from './products-container'
 export { default as CartContainer } from './cart-container'
 export { default as CheckoutForm } from './checkout-form'
+export { default as NotFoundPage } from './NotFoundPage'
 export { default as Checkout } from './Checkout'
+export { default as WelcomePage } from './WelcomePage.js'
 export { default as OrderComplete } from './complete-order'
 export { default as USstates } from './usstates-component'
