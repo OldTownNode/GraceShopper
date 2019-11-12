@@ -185,7 +185,7 @@ li:last-child {
 
 button[type='button'],
 button[type='submit'] {
-	width: 50%;
+	width: 40%;
 	background-color: #4caf50;
 	color: white;
 	padding: 14px 20px;
@@ -262,6 +262,12 @@ div > div.squareBorder {
 	margin-top: 5px;
 }
 
+.vertical-divider {
+	width: 2px;
+	background-color: black;
+	height: 80%;
+}
+
 .box {
 	position: relative;
 	display: inline-block;
@@ -279,4 +285,30 @@ div > div.squareBorder {
 	text-align: center;
 	width: 60%;
 	color: white;
+}
+
+.product-detail-image {
+	width: 100%;
+}
+
+.single-product-view {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.product-detail-right-half {
+	width: 80%;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.product-detail-left-half {
+	text-align: center;
+}
+
+.button-container {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 }

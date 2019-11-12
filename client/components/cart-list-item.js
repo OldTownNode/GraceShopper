@@ -19,7 +19,7 @@ export default function CartListItem(props) {
 				<h2 className="priceinvcont">
 					<div>{`price: $${(price / 100).toFixed(2)}`}</div>
 					<div>{`quantity: ${props.quantity}`}</div>
-					<div>
+					<div className="button-container">
 						<AddButton
 							increment={props.increment}
 							product={props.product}

@@ -9,20 +9,29 @@ export default function SingleProductView(props) {
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
 		<div className="single-product-view">
-			<h1>{name}</h1>
-			<a className="img">
-				<img src={imageUrl} />
-			</a>
-			<h2>
-				<div>{`price: ${(price / 100).toFixed(2)}`}</div>
-				<div>{`inventory: ${inventory}`}</div>
-			</h2>
-			<p>{description}</p>
-			<AddButton increment={props.increment} product={props.product} />
-			<DecrementButton
-				decrement={props.decrement}
-				product={props.product}
-			/>
+			<div className="product-detail-left-half">
+				<h2>{name}</h2>
+
+				<img className="product-detail-image" src={imageUrl} />
+			</div>
+			<div className="vertical-divider" />
+			<div className="product-detail-right-half">
+				<h2>
+					<div>{`price: ${(price / 100).toFixed(2)}`}</div>
+					<div>{`inventory: ${inventory}`}</div>
+				</h2>
+				<p>{description}</p>
+				<div className="button-container">
+					<AddButton
+						increment={props.increment}
+						product={props.product}
+					/>
+					<DecrementButton
+						decrement={props.decrement}
+						product={props.product}
+					/>
+				</div>
+			</div>
 			{props.state.name && props.user.admin ? (
 				<ProductForm
 					state={props.state}
