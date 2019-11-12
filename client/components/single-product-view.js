@@ -5,7 +5,7 @@ import DecrementButton from './decrement-button'
 export default function SingleProductView(props) {
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
-		<div>
+		<div className="single-product-view">
 			<h1>{name}</h1>
 			<a className="img">
 				<img src={imageUrl} />

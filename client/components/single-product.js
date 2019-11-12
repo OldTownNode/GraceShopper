@@ -6,16 +6,14 @@ export default function SingleProduct(props) {
 		<div className="card">
 			<div className="linkcontainer">
 				<Link to={`/products/${id}`}>
-					<h1 className="h1">{name}</h1>
+					<h2 className="h1">{name}</h2>
 				</Link>
-
+				<div className="divider" />
 				<a className="imgcontainer">
 					<img className="img" src={imageUrl} />
 				</a>
-				<h2 className="priceinvcont">
-					<div>{`price: ${price}`}</div>
-					<div>{`inventory: ${inventory}`}</div>
-				</h2>
+				<h3 className="priceinvcont">{`price: $${price}`}</h3>
+				<h3 className="priceinvcont">{`inventory: ${inventory}`}</h3>
 			</div>
 		</div>
 	)

@@ -45,10 +45,15 @@ router.get('/order', async (req, res, next) => {
 			products: []
 		}
 		Object.keys(req.session.cart).forEach(async element => {
-			productObject = await Product.findByPk(element)
-			productObject.orderprouct.quantity = req.session.cart[element]
-			products.push(productObject)
+			let productObject = await Product.findByPk(element)
+			let newProduct = { ...productObject.dataValues }
+			console.log('newProduct: ', newProduct)
+			newProduct.orderproduct = { quantity: 0 }
+			newProduct.orderproduct.quantity = req.session.cart[element]
+			returnObject.products.push(newProduct)
+			console.log('returnObject', returnObject)
 		})
+		console.log('leaving route! returnObject', returnObject)
 		res.json(returnObject)
 	}
 })
