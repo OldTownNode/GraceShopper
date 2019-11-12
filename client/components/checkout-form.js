@@ -10,6 +10,7 @@ function App(props) {
 		const price = props.sum
 		const response = await axios.post('/stripe', { token, price })
 		const { status } = response.data
+
 		if (status === 'success') props.completeOrderThunk()
 	}
 
@@ -17,12 +18,12 @@ function App(props) {
 		<div className="card card-stripe">
 			<h2>Pay with Stripe</h2>
 			<div className="card">
-				<h3>Cart Total · ${props.sum}</h3>
+				<h3>Cart Total · ${props.sum / 100}</h3>
 			</div>
 			<StripeCheckout
 				stripeKey="pk_test_QZiXdK0ubHiHFR1WhJg8PaQg00z05GFUJz"
 				token={handleToken}
-				amount={props.sum * 100} // stripe uses cents for transactions
+				amount={props.sum} // stripe uses cents for transactions
 				name="Your Cart"
 				billingAddress //internal keys - create billing and shipping addresses windows
 				shippingAddress // in stripe
