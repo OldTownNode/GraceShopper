@@ -18,7 +18,6 @@ router.get('/', async (req, res, next) => {
 			res.json(returnObject)
 		} else {
 			res.json(req.session.cart)
-			//TODO handle guest case
 		}
 	} catch (error) {
 		next(error)
@@ -41,14 +40,15 @@ router.get('/order', async (req, res, next) => {
 			let returnObject = {
 				products: []
 			}
-			Object.keys(req.session.cart).forEach(async element => {
-				let productObject = await Product.findByPk(element)
+			let products = await Product.findAll()
+			returnObject.products = Object.keys(req.session.cart).map(id => {
+				let productObject = products.filter(product => {
+					return id === product.id.toString()
+				})[0]
 				let newProduct = { ...productObject.dataValues }
-				console.log('newProduct: ', newProduct)
 				newProduct.orderproduct = { quantity: 0 }
-				newProduct.orderproduct.quantity = req.session.cart[element]
-				returnObject.products.push(newProduct)
-				console.log('returnObject', returnObject)
+				newProduct.orderproduct.quantity = req.session.cart[id]
+				return newProduct
 			})
 			console.log('leaving route! returnObject', returnObject)
 			res.json(returnObject)
