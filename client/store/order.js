@@ -11,28 +11,27 @@ const GOT_USER_ORDERS = 'GOT_USER_ORDERS'
  */
 const gotAllOrders = orders => ({ type: GOT_ALL_ORDERS, orders })
 const gotUserOrders = userOrders => ({ type: GOT_USER_ORDERS, userOrders })
-// const removeUser = () => ({type: REMOVE_USER})
 
 /**
  * THUNK CREATORS
  */
 export const getAllOrders = () => async dispatch => {
-	const { data } = await Axios.get('/api/orders')
-	dispatch(gotAllOrders(data))
+	try {
+		const { data } = await Axios.get('/api/orders')
+		dispatch(gotAllOrders(data))
+	} catch (error) {
+		console.log(error)
+	}
 }
 
 export const getUserOrders = id => async dispatch => {
-	const { data } = await Axios.get(`/api/users/${id}/orders`)
-	dispatch(gotUserOrders(data))
+	try {
+		const { data } = await Axios.get(`/api/users/${id}/orders`)
+		dispatch(gotUserOrders(data))
+	} catch (error) {
+		console.log(error)
+	}
 }
-
-/**
- * INITIAL STATE
- */
-// const initialState = {
-//     orders: [],
-//     singleOrder: {}
-// }
 
 /**
  * REDUCER
