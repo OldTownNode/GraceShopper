@@ -2,16 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { auth } from '../store'
-
+import { fetchProducts } from '../store/product'
+import { getCartThunkCreator } from '../store/cartReducer'
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-	const { name, displayName, handleSubmit, error } = props
+	const { name, displayName, handleSubmit, error, getCart, cart } = props
+	// function newSubmit(event){
+	// 	getCart()
+	// 	handleSubmit(event)
+	// }
 
 	return (
 		<div>
-			<form onSubmit={handleSubmit} name={name}>
+			<form onSubmit={() => handleSubmit(event, cart)} name={name}>
 				<div>
 					<label htmlFor="email">
 						<small>Email</small>
@@ -45,7 +50,8 @@ const mapLogin = state => {
 	return {
 		name: 'login',
 		displayName: 'Login',
-		error: state.user.loggedInUser.error
+		error: state.user.loggedInUser.error,
+		cart: state.cart
 	}
 }
 
@@ -59,13 +65,14 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
 	return {
-		handleSubmit(evt) {
+		handleSubmit(evt, cart) {
 			evt.preventDefault()
 			const formName = evt.target.name
 			const email = evt.target.email.value
 			const password = evt.target.password.value
 
-			dispatch(auth(email, password, formName))
+			dispatch(getCartThunkCreator())
+			dispatch(auth(email, password, formName, cart))
 		}
 	}
 }

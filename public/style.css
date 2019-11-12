@@ -15,6 +15,25 @@ nav {
 	flex-direction: row;
 	justify-content: center;
 }
+.nav-image {
+	border-radius: 75px;
+	max-height: 150px;
+	max-width: 150px;
+}
+
+.nav-header {
+	background-color: #462d44;
+	margin: 15px;
+	max-height: 150px;
+}
+.nav-header > a {
+	float: left;
+	display: block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px;
+	text-decoration: none;
+}
 
 a:link {
 	font-weight: 600;
@@ -183,9 +202,8 @@ li:last-child {
 	padding-bottom: 10px;
 }
 
-button[type='button'],
-button[type='submit'] {
-	width: 40%;
+button[type='button'] {
+	width: 45%;
 	background-color: #4caf50;
 	color: white;
 	padding: 14px 20px;
@@ -232,7 +250,17 @@ div > div.squareBorder {
 	max-height: 800px;
 	padding: 5px;
 }
-
+button[type='submit'] {
+	width: 100%;
+	background-color: #4caf50;
+	color: white;
+	padding: 14px 20px;
+	margin: auto;
+	margin-top: 8px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
 .notFoundPageContainer {
 	display: flex;
 	flex-direction: column;
@@ -285,6 +313,7 @@ div > div.squareBorder {
 	text-align: center;
 	width: 60%;
 	color: white;
+	text-shadow: 4px 4px gray;
 }
 
 .product-detail-image {

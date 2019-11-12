@@ -9,6 +9,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const FIND_SINGLE_USER = 'FIND_SINGLE_USER'
 const ALL_USERS = 'ALL_USERS'
 const UPDATE_USER = 'UPDATE_USER'
+const REMOVE_AS_ADMIN = 'REMOVE_AS_ADMIN'
 
 /**
  * INITIAL STATE
@@ -27,19 +28,21 @@ const removeUser = () => ({ type: REMOVE_USER })
 const findSingleUser = user => ({ type: FIND_SINGLE_USER, user })
 const allUsers = users => ({ type: ALL_USERS, users })
 const updateUser = user => ({ type: UPDATE_USER, user })
+const removeAsAdmin = () => ({ type: REMOVE_AS_ADMIN })
 /**
  * THUNK CREATORS
  */
 //custom thunks start
 export const deleteUserThunk = (id, admin) => async dispatch => {
 	try {
-		console.log('admin', admin)
 		await axios.delete(`/api/users/${id}`)
-		dispatch(removeUser())
+		if (!admin.admin) {
+			dispatch(removeUser())
 
-		if (!admin.admin) history.push('/login')
-		else {
-			dispatch(findSingleUser(admin.id))
+			history.push('/login')
+		} else {
+			//dispatch(findSingleUser(admin.id))
+			dispatch(removeAsAdmin())
 			history.push(`/users/${admin.id}`)
 		}
 	} catch (err) {
@@ -91,17 +94,22 @@ export const me = () => async dispatch => {
 	}
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, method, cart) => async dispatch => {
 	let res
+
 	try {
 		res = await axios.post(`/auth/${method}`, { email, password })
+		Object.keys(cart).forEach(async function(product) {
+			let { data } = await axios.get(`/api/products/${parseInt(product)}`)
+			await axios.put(`/api/cart/increment`, data)
+		})
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
 	}
 
 	try {
 		dispatch(getUser(res.data))
-		history.push('/home')
+		history.push('/')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}
@@ -129,6 +137,11 @@ export default function(state = initialState, action) {
 				...state,
 				user: initialState.user,
 				loggedInUser: initialState.user
+			}
+		case REMOVE_AS_ADMIN:
+			return {
+				...state,
+				user: initialState.user
 			}
 		case FIND_SINGLE_USER:
 			return { ...state, user: action.user }
