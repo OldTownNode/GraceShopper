@@ -172,7 +172,8 @@ li:last-child {
 	padding-bottom: 10px;
 }
 
-button[type='button'] {
+button[type='button'],
+button[type='submit'] {
 	width: 50%;
 	background-color: #4caf50;
 	color: white;

@@ -7,7 +7,6 @@ module.exports = router
 router.get('/', async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.user.id)
-		console.log('user in get', req.user)
 
 		if (!user || !user.admin) console.error('Insufficient Rights')
 		else {

@@ -2,6 +2,7 @@ import React from 'react'
 import CartListItem from './cart-list-item'
 import { connect } from 'react-redux'
 import { completeOrderThunk } from '../store/cartReducer'
+import { CheckoutForm } from './index.js'
 
 class CartView extends React.Component {
 	constructor() {
@@ -44,11 +45,16 @@ class CartView extends React.Component {
 				})}
 
 				<h4>Total: ${totalPrice}</h4>
-				<form onSubmit={() => this.handleSubmit(event)}>
-					<button type="submit" className="checkout-button">
-						Checkout
-					</button>
-				</form>
+				<div className="container">
+					<div className="card">
+						<form onSubmit={() => this.handleSubmit(event)}>
+							<button type="submit" className="checkout-button">
+								Checkout
+							</button>
+						</form>
+					</div>
+					<CheckoutForm sum={this.props.totalPrice} />
+				</div>
 			</div>
 		)
 	}

@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import history from '../history'
 const GET_CART = 'GET_CART'
 const INCREMENT_PRODUCT = 'INCREMENT_PRODUCT'
 const DECREMENT_PRODUCT = 'DECREMENT_PRODUCT'
@@ -85,6 +85,7 @@ export const completeOrderThunk = () => {
 		try {
 			const { data } = await axios.put('/api/cart/checkout')
 			dispatch(completeOrder())
+			history.push('/ordercomplete')
 		} catch (error) {
 			console.error(error)
 		}
