@@ -8,6 +8,7 @@ const initialState = {
 //action types
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //action creators
 export const getProducts = products => ({
@@ -17,6 +18,11 @@ export const getProducts = products => ({
 
 export const getSingleProduct = product => ({
 	type: GET_SINGLE_PRODUCT,
+	singleProduct: product
+})
+
+export const getUpdatedProduct = product => ({
+	type: UPDATE_PRODUCT,
 	singleProduct: product
 })
 
@@ -44,12 +50,29 @@ export function fetchAProduct(id) {
 	}
 }
 
+export function putProduct(state, id) {
+	return async function thunk(dispatch) {
+		try {
+			console.log('id', id)
+			const { data } = await axios.put(`/api/products/${id}`, state)
+			dispatch(getUpdatedProduct(data))
+		} catch (error) {
+			console.log('error in put product thunk', error)
+		}
+	}
+}
+
 const productReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_PRODUCTS:
 			return { ...state, products: action.products }
 		case GET_SINGLE_PRODUCT:
 			return { ...state, singleProduct: action.singleProduct }
+		case UPDATE_PRODUCT:
+			return {
+				...state,
+				singleProduct: action.singleProduct
+			}
 
 		default:
 			return state
