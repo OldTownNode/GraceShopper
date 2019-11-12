@@ -8,7 +8,7 @@ export default function SingleProductView(props) {
 	console.log('props in spv', props.user.admin)
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
-		<div>
+		<div className="single-product-view">
 			<h1>{name}</h1>
 			<a className="img">
 				<img src={imageUrl} />

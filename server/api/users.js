@@ -109,20 +109,32 @@ router.put('/:id', async (req, res, next) => {
 				if (user.admin && !(user.id === parseInt(req.params.id))) {
 					await User.update(
 						{
-							admin: req.body.admin
+							email: req.body.email,
+							password: req.body.password,
+							username: req.body.username,
+							firstName: req.body.firstName,
+							lastName: req.body.lastName,
+							apt: req.body.apt,
+							street: req.body.street,
+							houseNumber: req.body.houseNumber,
+							zipcode: req.body.zipcode,
+							state: req.body.state,
+							country: req.body.country
 						},
+
 						{
-							where: { id: req.params.id }
+							where: { id: req.params.id },
+							individualHooks: true
 						}
 					)
-				}
 
-				res.json(user)
+					res.json(user)
+				} else {
+					res.status(401).send('Insufficient Rights')
+				}
 			} else {
-				res.status(401).send('Insufficient Rights')
+				res.sendStatus(201)
 			}
-		} else {
-			res.sendStatus(201)
 		}
 	} catch (error) {
 		res.status(401).send(error.message)

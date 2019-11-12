@@ -41,12 +41,16 @@ router.get('/order', async (req, res, next) => {
 			let returnObject = {
 				products: []
 			}
-
 			Object.keys(req.session.cart).forEach(async element => {
-				let productObject = await Product.findByPk(+element)
-				productObject.orderproduct.quantity = req.session.cart[element]
-				returnObject.products.push(productObject)
+				let productObject = await Product.findByPk(element)
+				let newProduct = { ...productObject.dataValues }
+				console.log('newProduct: ', newProduct)
+				newProduct.orderproduct = { quantity: 0 }
+				newProduct.orderproduct.quantity = req.session.cart[element]
+				returnObject.products.push(newProduct)
+				console.log('returnObject', returnObject)
 			})
+			console.log('leaving route! returnObject', returnObject)
 			res.json(returnObject)
 		}
 	} catch (error) {
@@ -77,7 +81,6 @@ router.put('/increment', async (req, res, next) => {
 			} else {
 				req.session.cart[req.body.id] = 1
 			}
-
 			res.json(req.session)
 		}
 	} catch (error) {
@@ -106,7 +109,6 @@ router.put('/decrement', async (req, res, next) => {
 			} else {
 				req.session.cart[req.body.id] = 1
 			}
-
 			res.json(req.session)
 		}
 	} catch (error) {
@@ -129,13 +131,11 @@ router.delete('/:productId', async (req, res, next) => {
 				res.json(undefined)
 			}
 		} else {
-			//TODO handle Session version
 			if (Object.keys(req.session.cart).includes(req.params.productId)) {
 				let newCart = { ...req.session.cart }
 				delete newCart[req.body.id]
 				req.session.cart = newCart
 			}
-
 			res.json(req.session)
 		}
 	} catch (error) {
