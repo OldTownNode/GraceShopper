@@ -53,7 +53,6 @@ export function fetchAProduct(id) {
 export function putProduct(state, id) {
 	return async function thunk(dispatch) {
 		try {
-			console.log('id', id)
 			const { data } = await axios.put(`/api/products/${id}`, state)
 			dispatch(getUpdatedProduct(data))
 		} catch (error) {

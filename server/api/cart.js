@@ -34,6 +34,7 @@ router.get('/order', async (req, res, next) => {
 				},
 				include: [{ model: Product, as: 'products' }]
 			})
+
 			res.json(cartOrder)
 		} else {
 			//here is where we handle the non-logged in cart. It should return a similar object to the logged in route!
@@ -60,6 +61,7 @@ router.get('/order', async (req, res, next) => {
 //This route will handle all 'additions' to the cart, even if it is just incrementing a product that is already there.  There are two cases to handle:  When the user is logged in and when the user is a guest. This will be handled by checking if req.user is undefined.
 //req.body is a product
 router.put('/increment', async (req, res, next) => {
+	console.log('req.user', req.user)
 	try {
 		if (req.user) {
 			let cartOrder = await Order.findOrCreate({
