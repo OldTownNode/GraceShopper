@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Order, Product } = require('../db/models')
+const { Order, Product, OrderProduct } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
 	try {
@@ -12,9 +12,12 @@ router.get('/', async (req, res, next) => {
 				include: [{ model: Product, as: 'products' }]
 			})
 			let returnObject = {}
-			cartOrder.products.map(product => {
-				returnObject[product.id] = product.orderproduct.quantity
-			})
+			if (cartOrder) {
+				cartOrder.products.map(product => {
+					returnObject[product.id] = product.orderproduct.quantity
+				})
+			}
+
 			res.json(returnObject)
 		} else {
 			res.json(req.session.cart)
@@ -155,6 +158,20 @@ router.put('/checkout', async (req, res, next) => {
 			})
 			cartOrder.status = 'complete'
 			await cartOrder.save()
+
+			let products = await OrderProduct.findAll({
+				where: {
+					orderId: cartOrder.id
+				}
+			})
+
+			products.forEach(async orderproduct => {
+				let product = await Product.findByPk(orderproduct.productId)
+
+				product.inventory = product.inventory - orderproduct.quantity
+				await product.save()
+			})
+
 			res.send(cartOrder)
 		} else {
 			res.send('not logged in not set up yet')
