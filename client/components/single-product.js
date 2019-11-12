@@ -12,7 +12,9 @@ export default function SingleProduct(props) {
 				<a className="imgcontainer">
 					<img className="img" src={imageUrl} />
 				</a>
-				<h3 className="priceinvcont">{`price: $${price}`}</h3>
+				<h3 className="priceinvcont">{`price: $${(price / 100).toFixed(
+					2
+				)}`}</h3>
 				<h3 className="priceinvcont">{`inventory: ${inventory}`}</h3>
 			</div>
 		</div>

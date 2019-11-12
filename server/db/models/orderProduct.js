@@ -11,7 +11,7 @@ const OrderProduct = db.define('orderproduct', {
 		}
 	},
 	price: {
-		type: Sequelize.DECIMAL(8, 2),
+		type: Sequelize.INTEGER,
 		allowNull: false,
 		validate: {
 			min: 0,

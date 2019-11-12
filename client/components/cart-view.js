@@ -28,9 +28,11 @@ class CartView extends React.Component {
 	render() {
 		const productIds = Object.keys(this.props.cart)
 		const quantities = Object.values(this.props.cart)
-		let totalPrice = 0.0
+
+		let totalPrice = 0
 		let userparam = 0
 		if (this.props.userId) userparam = this.props.userId
+		console.log('type of total price: ', typeof totalPrice)
 		return (
 			<div>
 				{!userparam && !this.state.formCompleted ? (
@@ -70,7 +72,7 @@ class CartView extends React.Component {
 				{this.state.formCompleted || this.props.userId ? (
 					<div className="container">
 						<div className="card">
-							<h4>Total: ${totalPrice}</h4>
+							<h4>Total: ${(totalPrice / 100).toFixed(2)}</h4>
 							<button
 								type="submit"
 								className="checkout-button"
@@ -79,18 +81,18 @@ class CartView extends React.Component {
 								Checkout
 							</button>
 						</div>
-						<CheckoutForm sum={totalPrice} />
+						<CheckoutForm sum={(totalPrice / 100).toFixed(2)} />
 					</div>
 				) : (
 					<div className="container">
 						<div className="card">
-							<h4>Total: ${totalPrice}</h4>
+							<h4>Total: ${(totalPrice / 100).toFixed(2)}</h4>
 
 							<button type="submit" className="checkout-button">
 								Checkout
 							</button>
 						</div>
-						<CheckoutForm sum={totalPrice} />
+						<CheckoutForm sum={(totalPrice / 100).toFixed(2)} />
 					</div>
 				)}
 			</div>
