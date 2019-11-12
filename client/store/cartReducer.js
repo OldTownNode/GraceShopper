@@ -1,9 +1,10 @@
 import axios from 'axios'
-
+import history from '../history'
 const GET_CART = 'GET_CART'
 const INCREMENT_PRODUCT = 'INCREMENT_PRODUCT'
 const DECREMENT_PRODUCT = 'DECREMENT_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_ITEM'
+const COMPLETE_ORDER = 'COMPLETE_ORDER'
 
 const incrementProductActionCreator = product => ({
 	type: INCREMENT_PRODUCT,
@@ -24,6 +25,8 @@ const getCartActionCreator = cart => ({
 	type: GET_CART,
 	cart
 })
+
+const completeOrder = () => ({ type: COMPLETE_ORDER })
 
 export const incrementProductThunkCreator = product => {
 	return async dispatch => {
@@ -77,6 +80,18 @@ export const getCartThunkCreator = () => {
 	}
 }
 
+export const completeOrderThunk = () => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.put('/api/cart/checkout')
+			dispatch(completeOrder())
+			history.push('/ordercomplete')
+		} catch (error) {
+			console.error(error)
+		}
+	}
+}
+
 // eslint-disable-next-line complexity
 const cartReducer = (cart = {}, action) => {
 	let product = action.product
@@ -111,6 +126,8 @@ const cartReducer = (cart = {}, action) => {
 			return newCart
 		case GET_CART:
 			return action.cart
+		case COMPLETE_ORDER:
+			return {}
 		default:
 			return cart
 	}

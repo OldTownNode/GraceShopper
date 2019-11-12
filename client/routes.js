@@ -19,7 +19,8 @@ import {
 	CheckoutForm,
 	NotFoundPage,
 	Checkout,
-	WelcomePage
+	WelcomePage,
+	OrderComplete
 } from './components'
 
 /**
@@ -51,7 +52,7 @@ class Routes extends Component {
 				<Route path="/users/0/checkout" component={Checkout} />
 				<Route path="/users/0/update" component={UserUpdate} />
 				<Route path="/checkout-form" component={CheckoutForm} />
-
+				<Route path="/ordercomplete" component={OrderComplete} />
 				{isLoggedIn && (
 					<Switch>
 						{/* Routes placed here are only available after logging in */}
@@ -75,7 +76,10 @@ class Routes extends Component {
 						<Route path="/users/:id" component={UserPage} />
 						<Route path="/users" component={AllUsers} />
 						<Route path="/orders" component={Orders} />
-						<Route path="/checkout-form" component={CheckoutForm} />
+						<Route
+							path="/ordercomplete"
+							component={OrderComplete}
+						/>
 					</Switch>
 				)}
 				{/* Displays our NotFoundPage component as a fallback */}
@@ -93,7 +97,7 @@ const mapState = state => {
 	return {
 		// Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
 		// Otherwise, state.user will be an empty object, and state.user.id will be falsey
-		isLoggedIn: !!state.user.loggedInUser.id
+		isLoggedIn: !!state.user.loggedInUser.id || !!state.user.user
 	}
 }
 

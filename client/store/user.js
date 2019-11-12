@@ -33,10 +33,15 @@ const updateUser = user => ({ type: UPDATE_USER, user })
 //custom thunks start
 export const deleteUserThunk = (id, admin) => async dispatch => {
 	try {
+		console.log('admin', admin)
 		await axios.delete(`/api/users/${id}`)
 		dispatch(removeUser())
+
 		if (!admin.admin) history.push('/login')
-		else history.push(`/users/${admin.id}`)
+		else {
+			dispatch(findSingleUser(admin.id))
+			history.push(`/users/${admin.id}`)
+		}
 	} catch (err) {
 		console.error(err)
 	}

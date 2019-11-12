@@ -2,8 +2,8 @@ const router = require('express').Router()
 const { Order, Product } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-	if (req.user) {
-		try {
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOne({
 				where: {
 					userId: req.user.id,
@@ -16,18 +16,18 @@ router.get('/', async (req, res, next) => {
 				returnObject[product.id] = product.orderproduct.quantity
 			})
 			res.json(returnObject)
-		} catch (error) {
-			next(error)
+		} else {
+			res.json(req.session.cart)
+			//TODO handle guest case
 		}
-	} else {
-		res.json(req.session.cart)
+	} catch (error) {
+		next(error)
 	}
 })
 
 router.get('/order', async (req, res, next) => {
-	if (req.user) {
-		try {
-			//TODO update
+	try {
+		if (req.user) {
 			let cartOrder = await Order.findOne({
 				where: {
 					userId: req.user.id,
@@ -36,25 +36,25 @@ router.get('/order', async (req, res, next) => {
 				include: [{ model: Product, as: 'products' }]
 			})
 			res.json(cartOrder)
-		} catch (error) {
-			next(error)
+		} else {
+			//here is where we handle the non-logged in cart. It should return a similar object to the logged in route!
+			let returnObject = {
+				products: []
+			}
+			Object.keys(req.session.cart).forEach(async element => {
+				let productObject = await Product.findByPk(element)
+				let newProduct = { ...productObject.dataValues }
+				console.log('newProduct: ', newProduct)
+				newProduct.orderproduct = { quantity: 0 }
+				newProduct.orderproduct.quantity = req.session.cart[element]
+				returnObject.products.push(newProduct)
+				console.log('returnObject', returnObject)
+			})
+			console.log('leaving route! returnObject', returnObject)
+			res.json(returnObject)
 		}
-	} else {
-		//here is where we handle the non-logged in cart. It should return a similar object to the logged in route!
-		let returnObject = {
-			products: []
-		}
-		Object.keys(req.session.cart).forEach(async element => {
-			let productObject = await Product.findByPk(element)
-			let newProduct = { ...productObject.dataValues }
-			console.log('newProduct: ', newProduct)
-			newProduct.orderproduct = { quantity: 0 }
-			newProduct.orderproduct.quantity = req.session.cart[element]
-			returnObject.products.push(newProduct)
-			console.log('returnObject', returnObject)
-		})
-		console.log('leaving route! returnObject', returnObject)
-		res.json(returnObject)
+	} catch (error) {
+		next(error)
 	}
 })
 
@@ -73,7 +73,6 @@ router.put('/increment', async (req, res, next) => {
 				await cartOrder[0].incrementProduct(req.body.id, req.body.price)
 			)
 		} else {
-			console.log('req.session.cart: ', req.session.cart)
 			if (
 				Object.keys(req.session.cart).includes(req.body.id.toString())
 			) {
@@ -82,7 +81,6 @@ router.put('/increment', async (req, res, next) => {
 			} else {
 				req.session.cart[req.body.id] = 1
 			}
-			console.log('req.session: ', req.session)
 			res.json(req.session)
 		}
 	} catch (error) {
@@ -111,7 +109,6 @@ router.put('/decrement', async (req, res, next) => {
 			} else {
 				req.session.cart[req.body.id] = 1
 			}
-			console.log('req.session: ', req.session)
 			res.json(req.session)
 		}
 	} catch (error) {
@@ -134,13 +131,11 @@ router.delete('/:productId', async (req, res, next) => {
 				res.json(undefined)
 			}
 		} else {
-			//TODO handle Session version
 			if (Object.keys(req.session.cart).includes(req.params.productId)) {
 				let newCart = { ...req.session.cart }
 				delete newCart[req.body.id]
 				req.session.cart = newCart
 			}
-			console.log('req.session: ', req.session)
 			res.json(req.session)
 		}
 	} catch (error) {
