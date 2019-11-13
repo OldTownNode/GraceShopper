@@ -32,7 +32,7 @@ class CartView extends React.Component {
 		let totalPrice = 0
 		let userparam = 0
 		if (this.props.userId) userparam = this.props.userId
-
+		console.log('type of total price: ', typeof totalPrice)
 		return (
 			<div>
 				{!userparam && !this.state.formCompleted ? (
@@ -96,7 +96,7 @@ class CartView extends React.Component {
 								Checkout
 							</button>
 						</div>
-						<CheckoutForm sum={(totalPrice / 100).toFixed(2)} />
+						<CheckoutForm sum={totalPrice} />
 					</div>
 				)}
 			</div>
