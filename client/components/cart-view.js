@@ -88,7 +88,11 @@ class CartView extends React.Component {
 						<div className="card">
 							<h4>Total: ${(totalPrice / 100).toFixed(2)}</h4>
 
-							<button type="submit" className="checkout-button">
+							<button
+								type="submit"
+								className="checkout-button"
+								onClick={() => this.handleSubmit(event)}
+							>
 								Checkout
 							</button>
 						</div>
