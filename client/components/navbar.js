@@ -6,7 +6,6 @@ import { logout } from '../store'
 
 const calculateItemsInCart = cart => {
 	const items = Object.values(cart)
-	console.log('items', items)
 	if (items.length == 0) {
 		return 0
 	} else {
@@ -15,7 +14,6 @@ const calculateItemsInCart = cart => {
 }
 
 const Navbar = ({ handleClick, isLoggedIn, user, cart }) => {
-	console.log('isloggedin', cart)
 	return (
 		<div className="nav-header">
 			<Link to="/">
@@ -62,7 +60,6 @@ const Navbar = ({ handleClick, isLoggedIn, user, cart }) => {
  * CONTAINER
  */
 const mapState = state => {
-	console.log('state', state)
 	return {
 		cart: state.cart,
 		isLoggedIn: !!state.user.loggedInUser.id || !!state.user.user.admin,
