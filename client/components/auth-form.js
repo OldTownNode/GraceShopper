@@ -9,10 +9,6 @@ import { getCartThunkCreator } from '../store/cartReducer'
  */
 const AuthForm = props => {
 	const { name, displayName, handleSubmit, error, getCart, cart } = props
-	// function newSubmit(event){
-	// 	getCart()
-	// 	handleSubmit(event)
-	// }
 
 	return (
 		<div>

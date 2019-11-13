@@ -11,7 +11,7 @@ const User = db.define(
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
 						throw new Error(
-							'Address must not include illegal characters'
+							'First name must not include illegal characters'
 						)
 					}
 				},
@@ -27,7 +27,7 @@ const User = db.define(
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
 						throw new Error(
-							'Address must not include illegal characters'
+							'Last name must not include illegal characters'
 						)
 					}
 				},
@@ -61,28 +61,29 @@ const User = db.define(
 
 				//password check for presentation:
 				validPw(value) {
-					if (!value.match(/[0-9]/)) {
-						throw new Error(
-							'Password must include at least one number'
-						)
-					} else if (!value.match(/[!@#$%^&*]/)) {
-						//check which symbols can be used maliciously:
+					switch (value) {
+						case !value.match(/[0-9]/):
+							throw new Error(
+								'Password must include at least one number'
+							)
+						case !value.match(/[!@#$%^&*]/):
+							//check which symbols can be used maliciously:
 
-						throw new Error(
-							'Password must include at least one special character'
-						)
-					} else if (!value.match(/[A-Z]/)) {
-						throw new Error(
-							'Password must include at least one upper case character'
-						)
-					} else if (!value.match(/[a-z]/)) {
-						throw new Error(
-							'Password must include at least one lower case character'
-						)
-					} else if (value.match(/[;<>]/)) {
-						throw new Error(
-							'Password must not include illegal characters'
-						)
+							throw new Error(
+								'Password must include at least one special character'
+							)
+						case !value.match(/[A-Z]/):
+							throw new Error(
+								'Password must include at least one upper case character'
+							)
+						case !value.match(/[a-z]/):
+							throw new Error(
+								'Password must include at least one lower case character'
+							)
+						case value.match(/[;<>]/):
+							throw new Error(
+								'Password must not include illegal characters'
+							)
 					}
 				},
 
@@ -181,7 +182,7 @@ const User = db.define(
 				validAdd(value) {
 					if (value.match(/[;<>]/)) {
 						throw new Error(
-							'Address must not include illegal characters'
+							'Country name must not include illegal characters'
 						)
 					}
 				},
@@ -265,9 +266,7 @@ User.encryptPassword = function(plainText, salt) {
  * hooks
  */
 const setSaltAndPassword = user => {
-	console.log('in salt')
 	if (user.changed('password')) {
-		console.log('changed')
 		user.salt = User.generateSalt()
 		user.password = User.encryptPassword(user.password(), user.salt())
 	}
