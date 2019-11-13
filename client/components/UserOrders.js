@@ -8,6 +8,7 @@ class UserOrders extends Component {
 	}
 
 	render() {
+		console.log(this.props.userOrders)
 		return (
 			<div>
 				{this.props.userOrders &&

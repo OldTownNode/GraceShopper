@@ -41,7 +41,6 @@ class SingleProductContainer extends React.Component {
 		this.props.putProduct(this.state, this.props.match.params.id)
 	}
 	render() {
-		console.log('state', this.state)
 		return this.props.singleProduct.name ? (
 			<SingleProductView
 				product={this.props.singleProduct}
@@ -59,7 +58,6 @@ class SingleProductContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-	console.log('state', state)
 	return {
 		singleProduct: state.productReducer.singleProduct,
 		user: state.user.loggedInUser

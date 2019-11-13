@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function ProductForm(props) {
-	console.log('props in form ', props)
 	// props.setState({
 	// 	name: props.name,
 	// 	description: props.description,

@@ -110,7 +110,7 @@ class UpdateUser extends React.Component {
 		const displayDel = {
 			display: delStyle
 		}
-		console.log(this.props)
+
 		return (
 			<div className="editForm container">
 				<form

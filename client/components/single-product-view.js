@@ -5,7 +5,6 @@ import DecrementButton from './decrement-button'
 import Loading from './loading'
 
 export default function SingleProductView(props) {
-	console.log('props in spv', props.user.admin)
 	const { name, description, imageUrl, inventory, price } = props.product
 	return (
 		<div className="single-product-view">

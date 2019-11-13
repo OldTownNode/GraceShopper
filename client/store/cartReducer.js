@@ -31,7 +31,6 @@ const completeOrder = () => ({ type: COMPLETE_ORDER })
 export const incrementProductThunkCreator = product => {
 	return async dispatch => {
 		try {
-			console.log('thunkinc', product)
 			const { data } = await axios.put('/api/cart/increment', product)
 			if (data) {
 				dispatch(incrementProductActionCreator(product))
