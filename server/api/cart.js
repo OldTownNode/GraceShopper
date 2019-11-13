@@ -174,6 +174,7 @@ router.put('/checkout', async (req, res, next) => {
 
 			res.send(cartOrder)
 		} else {
+			req.session.cart = {}
 			res.send('not logged in not set up yet')
 		}
 	} catch (error) {
